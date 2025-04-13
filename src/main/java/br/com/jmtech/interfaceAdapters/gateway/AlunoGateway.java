@@ -9,4 +9,5 @@ public interface AlunoGateway {
     Aluno findByQrCodeOrElseThrow(String qrCode);
 
 
+    Aluno createAluno(Aluno aluno);
 }
