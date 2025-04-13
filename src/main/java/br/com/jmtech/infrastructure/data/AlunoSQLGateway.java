@@ -30,4 +30,9 @@ public class AlunoSQLGateway implements AlunoGateway {
         return repository.findByQrCode(qrCode)
                 .orElseThrow(()-> new NotFoundException("QRCode inválido, ou não cadastrado"));
     }
+
+    @Override
+    public Aluno createAluno(Aluno aluno) {
+        return repository.save(aluno);
+    }
 }

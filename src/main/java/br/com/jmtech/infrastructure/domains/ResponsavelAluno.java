@@ -36,7 +36,4 @@ public class ResponsavelAluno {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idResponsavel")
     private List<Telefone> telefones;
-
-    @Column(name = "codigoQR")
-    private String codigoQR;
 }

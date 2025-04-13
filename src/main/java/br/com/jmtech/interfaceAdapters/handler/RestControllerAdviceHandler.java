@@ -2,10 +2,7 @@ package br.com.jmtech.interfaceAdapters.handler;
 
 import br.com.jmtech.application.dto.DetailDTO;
 import br.com.jmtech.application.enums.ErrorType;
-import br.com.jmtech.interfaceAdapters.exception.BadRequestException;
-import br.com.jmtech.interfaceAdapters.exception.DataBaseCreateException;
-import br.com.jmtech.interfaceAdapters.exception.NotFoundException;
-import br.com.jmtech.interfaceAdapters.exception.UnprocessableEntityException;
+import br.com.jmtech.interfaceAdapters.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -63,6 +60,15 @@ public class RestControllerAdviceHandler extends ResponseEntityExceptionHandler 
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorType errorType = ErrorType.BAD_REQUEST;
         String detail = e.getMessage();
+        DetailDTO apiError = createApiErrorBuilder(status, errorType, detail);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(ExpiredQRCodeException.class)
+    public ResponseEntity<Object> handleExpiredQRCodeException(ExpiredQRCodeException e, WebRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        ErrorType errorType = ErrorType.UNPROCESSABLE_ENTITY;
+        String detail = "O QR Code informado está expirado";
         DetailDTO apiError = createApiErrorBuilder(status, errorType, detail);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), status, request);
     }

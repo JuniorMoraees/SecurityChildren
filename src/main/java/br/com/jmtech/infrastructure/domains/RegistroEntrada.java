@@ -3,9 +3,8 @@ package br.com.jmtech.infrastructure.domains;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,25 +13,25 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "QRCode")
-public class QRCode {
+@Table(name = "RegistroEntrada")
+public class RegistroEntrada {
 
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idQRCode;
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "idAluno")
     private Aluno aluno;
 
-    @ElementCollection
-    @CollectionTable(name = "responsavel_qrcode", joinColumns = @JoinColumn(name = "idQRCode"))
-    @Column(name = "idResponsavel")
-    private List<Long> responsaveis;
-
-    @Column(length = 2000)
-    private String codigoQR;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idResponsavel")
+    private ResponsavelAluno responsavel;
 
     @Column
-    private LocalDateTime dataGeracao;
+    private LocalDate dataEntrada;
+
+    @Column(length = 2000, nullable = false)
+    private String codigoQR;
+
 }
