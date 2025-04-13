@@ -4,8 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
-
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,24 +12,18 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "QRCode")
-public class QRCode {
+@Table(name = "QRCodeAluno")
+public class QRCodeAluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idQRCode;
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "idAluno")
+    @OneToOne
     private Aluno aluno;
-
-    @ManyToOne
-    @JoinColumn(name = "idResponsavel")
-    private ResponsavelAluno responsavel;
 
     @Column(length = 2000)
     private String codigoQR;
 
-    @Column
     private LocalDateTime dataGeracao;
 }

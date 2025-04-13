@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 @AllArgsConstructor
@@ -22,7 +23,8 @@ public class AlunoSQLGateway implements AlunoGateway {
 
     @Override
     public Aluno findByIdOrElseThrow(Long idAluno) {
-        return null;
+        return repository.findById(idAluno)
+                .orElseThrow(()-> new NotFoundException("Aluno não existe na base de dados"));
     }
 
     @Override
@@ -33,6 +35,17 @@ public class AlunoSQLGateway implements AlunoGateway {
 
     @Override
     public Aluno createAluno(Aluno aluno) {
+        return repository.save(aluno);
+    }
+
+    @Override
+    public List<Aluno> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Aluno updateAluno(Aluno aluno) {
+        manager.clear();
         return repository.save(aluno);
     }
 }

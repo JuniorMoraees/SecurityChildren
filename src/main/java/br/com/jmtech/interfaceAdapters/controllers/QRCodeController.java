@@ -21,7 +21,7 @@ public class QRCodeController {
     private final AlunoUseCase alunoUseCase;
     private final QRCodeUseCase qrCodeUseCase;
 
-    @GetMapping("/api/code/{qrCode}")
+    @GetMapping("/api/ler/{qrCode}")
     public ResponseEntity<AlunoDTO> getQRCode(@PathVariable String qrCode) {
         return ResponseEntity.ok(alunoUseCase.findAlunoByQRCode(qrCode));
     }
@@ -51,8 +51,4 @@ public class QRCodeController {
                             .build());
         }
     }
-
-
-
-
 }
