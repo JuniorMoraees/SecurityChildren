@@ -19,7 +19,7 @@ public class QrCodeReader {
 
     public Aluno leitorQrCode(String qrCode) {
         QRCode codigo = repository.findByCodigoQR(qrCode)
-                .orElseThrow(() -> new NotFoundException("QRCode inválido ou não encontrado"));
+                .orElseThrow(() -> new NotFoundException("QR Code do responsável inválido ou não encontrado"));
 
         if (!isQRCodeValido(codigo)) {
             throw new ExpiredQRCodeException("QRCode expirado.");

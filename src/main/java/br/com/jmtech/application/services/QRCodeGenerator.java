@@ -1,18 +1,14 @@
 package br.com.jmtech.application.services;
 
-import br.com.jmtech.infrastructure.domains.Aluno;
-import br.com.jmtech.infrastructure.domains.QRCode;
-import br.com.jmtech.infrastructure.domains.RegistroEntrada;
-import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
+import br.com.jmtech.infrastructure.domains.*;
 import br.com.jmtech.interfaceAdapters.exception.DataBaseCreateException;
-import br.com.jmtech.interfaceAdapters.repositories.AlunoRepository;
-import br.com.jmtech.interfaceAdapters.repositories.QRCodeRepository;
-import br.com.jmtech.interfaceAdapters.repositories.RegistroEntradaRepository;
-import br.com.jmtech.interfaceAdapters.repositories.ResponsavelRepository;
+import br.com.jmtech.interfaceAdapters.repositories.*;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import lombok.AllArgsConstructor;
+import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -24,6 +20,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 
@@ -31,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class QRCodeGenerator {
 
-    private final QRCodeRepository codeRepository;
+    private final QRCodeResponsavelRepository qrcodeResponsavelRepository;
     private final ResponsavelRepository responsavelRepository;
     private final AlunoRepository alunoRepository;
     private final RegistroEntradaRepository registroEntradaRepository;
@@ -41,50 +38,54 @@ public class QRCodeGenerator {
             Aluno aluno = alunoRepository.findById(idAluno)
                     .orElseThrow(() -> new DataBaseCreateException("Aluno não encontrado"));
 
-            String textoQR = "QR Code do aluno: " + aluno.getNome();
-            BitMatrix matrix = new MultiFormatWriter().encode(textoQR, BarcodeFormat.QR_CODE, 200, 200);
-            BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-            for (int i = 0; i < 200; i++) {
-                for (int j = 0; j < 200; j++) {
-                    image.setRGB(i, j, matrix.get(i, j) ? 0x000000 : 0xFFFFFF);
-                }
-            }
+            String qrCodeAlunoBase64 = gerarImagemQrBase64("QR Code do aluno: " + aluno.getNome());
 
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            ImageIO.write(image, "PNG", bytes);
-            String qrCodeBase64 = Base64.getEncoder().encodeToString(bytes.toByteArray());
-
-            QRCode qrCodeExistente = codeRepository.findByAluno(aluno);
-            if (qrCodeExistente != null) {
-                qrCodeExistente.setCodigoQR(qrCodeBase64);
-                qrCodeExistente.setDataGeracao(LocalDate.now().toString());
-                codeRepository.save(qrCodeExistente);
-            } else {
-                QRCode novoQrCode = new QRCode();
-                novoQrCode.setAluno(aluno);
-                novoQrCode.setCodigoQR(qrCodeBase64);
-                novoQrCode.setDataGeracao(LocalDate.now().toString());
-                codeRepository.save(novoQrCode);
-            }
-
-            aluno.setQrCode(qrCodeBase64);
+            aluno.setQrCode(qrCodeAlunoBase64);
             alunoRepository.save(aluno);
+
+            qrcodeResponsavelRepository.deleteByAluno(aluno);
 
             List<ResponsavelAluno> responsaveis = responsavelRepository.findByAlunosIdsContaining(aluno.getIdAluno());
             for (ResponsavelAluno responsavel : responsaveis) {
-                enviarQrCodeViaWhatsApp(responsavel.getCpf(), aluno.getNome(), qrCodeBase64);
+                String qrResponsavelTexto = "Responsável: " + responsavel.getNome() + " - Aluno: " + aluno.getNome();
+                String qrCodeResponsavelBase64 = gerarImagemQrBase64(qrResponsavelTexto);
 
-                RegistroEntrada registroEntrada = new RegistroEntrada();
-                registroEntrada.setAluno(aluno);
-                registroEntrada.setCodigoQR(qrCodeBase64);
-                registroEntrada.setResponsavel(responsavel);
-                registroEntrada.setDataEntrada(LocalDate.now());
-                registroEntradaRepository.save(registroEntrada);
+                QRCodeResponsavel qrResponsavel = QRCodeResponsavel.builder()
+                        .aluno(aluno)
+                        .responsavel(responsavel)
+                        .codigoQR(qrCodeResponsavelBase64)
+                        .dataGeracao(LocalDateTime.now())
+                        .build();
+
+                qrcodeResponsavelRepository.save(qrResponsavel);
+
+                enviarQrCodeViaWhatsApp(responsavel.getCpf(), aluno.getNome(), qrCodeResponsavelBase64);
+
+                RegistroEntrada registro = new RegistroEntrada();
+                registro.setAluno(aluno);
+                registro.setCodigoQR(qrCodeResponsavelBase64);
+                registro.setResponsavel(responsavel);
+                registro.setDataEntrada(LocalDate.now());
+                registroEntradaRepository.save(registro);
             }
 
         } catch (Exception e) {
             throw new DataBaseCreateException("Erro ao gerar ou enviar o QR Code");
         }
+    }
+
+    private String gerarImagemQrBase64(String texto) throws WriterException, IOException {
+        BitMatrix matrix = new MultiFormatWriter().encode(texto, BarcodeFormat.QR_CODE, 200, 200);
+        BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < 200; i++) {
+            for (int j = 0; j < 200; j++) {
+                image.setRGB(i, j, matrix.get(i, j) ? 0x000000 : 0xFFFFFF);
+            }
+        }
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        ImageIO.write(image, "PNG", bytes);
+        return Base64.getEncoder().encodeToString(bytes.toByteArray());
     }
 
     private void enviarQrCodeViaWhatsApp(String numero, String nomeAluno, String base64QrCode) {
@@ -108,5 +109,6 @@ public class QRCodeGenerator {
             throw new RuntimeException("Erro ao enviar QR Code via WhatsApp", e);
         }
     }
+
 }
 

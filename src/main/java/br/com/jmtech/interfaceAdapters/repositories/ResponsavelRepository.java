@@ -15,4 +15,5 @@ public interface ResponsavelRepository extends JpaRepository<ResponsavelAluno, L
 
     List<ResponsavelAluno> findByAlunosIdsContaining(Long alunoId);
 
+    ResponsavelAluno findByAlunoId(Long alunoId);
 }
