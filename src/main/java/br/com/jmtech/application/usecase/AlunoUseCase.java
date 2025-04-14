@@ -11,7 +11,6 @@ import br.com.jmtech.infrastructure.domains.Aluno;
 import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
 import br.com.jmtech.interfaceAdapters.gateway.AlunoGateway;
 import br.com.jmtech.interfaceAdapters.gateway.ResponsavelGateway;
-import br.com.jmtech.interfaceAdapters.repositories.ResponsavelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
