@@ -1,19 +1,19 @@
 package br.com.jmtech.interfaceAdapters.controllers;
 
 import br.com.jmtech.application.dto.DetailDTO;
+import br.com.jmtech.application.dto.aluno.AlunoDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelCreateDTO;
 import br.com.jmtech.application.usecase.ResponsavelUseCase;
 import br.com.jmtech.interfaceAdapters.exception.DataBaseCreateException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -36,5 +36,10 @@ public class ResponsavelController {
                         .detail(CREATED)
                         .title(SUCCESS_MESSAGE)
                         .build());
+    }
+
+    @GetMapping("/api/responsaveis")
+    public ResponseEntity<List<ResponsavelAlunoDTO>> findAll() {
+        return ResponseEntity.ok(responsavelUseCase.findAll());
     }
 }
