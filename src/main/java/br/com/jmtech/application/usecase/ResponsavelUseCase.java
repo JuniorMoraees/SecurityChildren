@@ -1,9 +1,10 @@
 package br.com.jmtech.application.usecase;
 
 import br.com.jmtech.application.assembler.ResponsavelAssembler;
-import br.com.jmtech.application.dto.aluno.AlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelCreateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
 import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
 import br.com.jmtech.interfaceAdapters.exception.DataBaseCreateException;
 import br.com.jmtech.interfaceAdapters.gateway.ResponsavelGateway;
@@ -25,8 +26,8 @@ public class ResponsavelUseCase {
     @PersistenceContext
     private final EntityManager manager;
 
-    public Long create(ResponsavelCreateDTO responsavelCreateDTO) throws DataBaseCreateException {
-        ResponsavelAluno newResponsavel = responsavelAssembler.toResponsavel(responsavelCreateDTO);
+    public Long create(ResponsavelAlunoCreateDTO responsavelAlunoCreateDTO) throws DataBaseCreateException {
+        ResponsavelAluno newResponsavel = responsavelAssembler.toResponsavel(responsavelAlunoCreateDTO);
         isExistResponsavel(newResponsavel);
         return responsavelGateway.createResponsavel(newResponsavel).getId();
     }
@@ -50,4 +51,25 @@ public class ResponsavelUseCase {
         }
     }
 
+    public ResponsavelAlunoSearchDTO findById(Long idResponsavel) {
+        ResponsavelAluno responsavel = responsavelGateway.findByIdOrElseThrow(idResponsavel);
+        return responsavelAssembler.toResponsavelSearchDTO(responsavel);
+    }
+
+    public void update(ResponsavelAlunoUpdateDTO responsavelAlunoUpdate, long idResponsavel) throws DataBaseCreateException {
+        ResponsavelAluno responsavelToUpdate = mapToClient(responsavelAlunoUpdate, idResponsavel);
+        manager.clear();
+        isExistResponsavel(responsavelToUpdate);
+        responsavelGateway.updateResponsavel(responsavelToUpdate);
+    }
+
+    private ResponsavelAluno mapToClient(ResponsavelAlunoUpdateDTO responsavelAlunoUpdate, long idResponsavel) {
+        ResponsavelAluno existResponsavel = responsavelGateway.findByIdOrElseThrow(idResponsavel);
+        return responsavelAssembler.toResponsavel(responsavelAlunoUpdate, existResponsavel, idResponsavel);
+    }
+
+    public void delete(long idResponsavel) {
+        ResponsavelAluno responsavelForDelete = responsavelGateway.findByIdOrElseThrow(idResponsavel);
+        responsavelGateway.delete(responsavelForDelete.getId());
+    }
 }

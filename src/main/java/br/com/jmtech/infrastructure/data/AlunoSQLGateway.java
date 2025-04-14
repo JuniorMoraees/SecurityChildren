@@ -48,4 +48,9 @@ public class AlunoSQLGateway implements AlunoGateway {
         manager.clear();
         return repository.save(aluno);
     }
+
+    @Override
+    public void delete(Long idAluno) {
+        repository.deleteById(idAluno);
+    }
 }

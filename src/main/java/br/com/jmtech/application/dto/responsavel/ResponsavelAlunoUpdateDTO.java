@@ -1,4 +1,4 @@
 package br.com.jmtech.application.dto.responsavel;
 
-public class ResponsavelCreateDTO {
+public class ResponsavelAlunoUpdateDTO {
 }

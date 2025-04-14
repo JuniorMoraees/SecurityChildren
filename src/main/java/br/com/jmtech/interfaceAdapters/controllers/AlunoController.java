@@ -49,9 +49,20 @@ public class AlunoController {
         return  ResponseEntity.ok(alunoUseCase.findById(idAluno));
     }
 
-    @PutMapping
+    @PutMapping("/api/alunos/{idAluno}")
     public ResponseEntity<DetailDTO> update(@PathVariable Long idAluno, @Valid @RequestBody AlunoUpdateDTO alunoUpdate) {
         alunoUseCase.update(alunoUpdate, idAluno);
+        return ResponseEntity.ok()
+                .body(DetailDTO.builder()
+                        .status(HttpStatus.OK.value())
+                        .detail(UPDATED)
+                        .title(SUCCESS_MESSAGE)
+                        .build());
+    }
+
+    @DeleteMapping("/api/alunos/{idAluno}")
+    public ResponseEntity<DetailDTO> delete(@PathVariable Long idAluno) {
+        alunoUseCase.delete(idAluno);
         return ResponseEntity.ok()
                 .body(DetailDTO.builder()
                         .status(HttpStatus.OK.value())
