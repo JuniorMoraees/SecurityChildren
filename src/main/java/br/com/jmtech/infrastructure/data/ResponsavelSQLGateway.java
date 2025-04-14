@@ -6,6 +6,8 @@ import br.com.jmtech.interfaceAdapters.repositories.ResponsavelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @AllArgsConstructor
 public class ResponsavelSQLGateway implements ResponsavelGateway {
@@ -15,6 +17,21 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
     @Override
     public ResponsavelAluno findByAlunoId(Long alunoId) {
         return responsavelRepository.findByAlunoId(alunoId);
+    }
+
+    @Override
+    public ResponsavelAluno createResponsavel(ResponsavelAluno newResponsavel) {
+        return responsavelRepository.save(newResponsavel);
+    }
+
+    @Override
+    public Optional<ResponsavelAluno> findResponsavelAlunoByCpfAndIdIsNot(String cpf, Long idResponsavel) {
+        return responsavelRepository.findResponsavelAlunoByCpfAndIdIsNot(cpf, idResponsavel);
+    }
+
+    @Override
+    public Optional<ResponsavelAluno> findByCpf(String cpf) {
+        return responsavelRepository.findByCpf(cpf);
     }
 }
 

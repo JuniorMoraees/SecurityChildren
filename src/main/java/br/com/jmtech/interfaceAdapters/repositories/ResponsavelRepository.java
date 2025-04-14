@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ResponsavelRepository extends JpaRepository<ResponsavelAluno, Long> {
@@ -16,4 +17,8 @@ public interface ResponsavelRepository extends JpaRepository<ResponsavelAluno, L
     List<ResponsavelAluno> findByAlunosIdsContaining(Long alunoId);
 
     ResponsavelAluno findByAlunoId(Long alunoId);
+
+    Optional<ResponsavelAluno> findResponsavelAlunoByCpfAndIdIsNot(String cpf, Long id);
+
+    Optional<ResponsavelAluno> findByCpf(String cpf);
 }
