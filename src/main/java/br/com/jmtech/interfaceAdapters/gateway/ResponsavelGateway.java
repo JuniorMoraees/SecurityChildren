@@ -2,6 +2,7 @@ package br.com.jmtech.interfaceAdapters.gateway;
 
 import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ResponsavelGateway {
@@ -13,4 +14,6 @@ public interface ResponsavelGateway {
     Optional<ResponsavelAluno> findResponsavelAlunoByCpfAndIdIsNot(String cpf, Long id);
 
     Optional<ResponsavelAluno> findByCpf(String cpf);
+
+    List<ResponsavelAluno> findAll();
 }

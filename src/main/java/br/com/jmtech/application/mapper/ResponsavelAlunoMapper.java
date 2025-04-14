@@ -1,11 +1,16 @@
 package br.com.jmtech.application.mapper;
 
+import br.com.jmtech.application.dto.aluno.AlunoDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelCreateDTO;
+import br.com.jmtech.infrastructure.domains.Aluno;
 import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class ResponsavelAlunoMapper {
@@ -14,7 +19,7 @@ public abstract class ResponsavelAlunoMapper {
 
     public abstract ResponsavelAluno toResponsavel(ResponsavelCreateDTO responsavelCreateDTO, @MappingTarget ResponsavelAluno newResponsavel, @Context ResponsavelContext responsavelContext);
 
-
+    public abstract List<ResponsavelAlunoDTO> toResponsavelDTO(List<ResponsavelAluno> responsavel);
 
 
     public static class ResponsavelContext {

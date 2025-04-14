@@ -6,6 +6,7 @@ import br.com.jmtech.interfaceAdapters.repositories.ResponsavelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,6 +33,11 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
     @Override
     public Optional<ResponsavelAluno> findByCpf(String cpf) {
         return responsavelRepository.findByCpf(cpf);
+    }
+
+    @Override
+    public List<ResponsavelAluno> findAll() {
+        return responsavelRepository.findAll();
     }
 }
 
