@@ -64,4 +64,8 @@ public class AlunoUseCase {
         return alunoAssembler.toAluno(alunoUpdateDTO,alunoExist, idAluno);
     }
 
+    public void delete(Long idAluno) {
+        Aluno alunoForDelete = alunoGateway.findByIdOrElseThrow(idAluno);
+        alunoGateway.delete(alunoForDelete.getIdAluno());
+    }
 }

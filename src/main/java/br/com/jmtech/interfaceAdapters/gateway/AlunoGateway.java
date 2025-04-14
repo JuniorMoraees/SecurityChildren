@@ -16,4 +16,6 @@ public interface AlunoGateway {
     List<Aluno> findAll();
 
     Aluno updateAluno(Aluno alunoToUpdate);
+
+    void delete(Long idAluno);
 }

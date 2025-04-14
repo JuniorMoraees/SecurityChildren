@@ -16,4 +16,10 @@ public interface ResponsavelGateway {
     Optional<ResponsavelAluno> findByCpf(String cpf);
 
     List<ResponsavelAluno> findAll();
+
+    ResponsavelAluno findByIdOrElseThrow(Long idResponsavel);
+
+    ResponsavelAluno updateResponsavel(ResponsavelAluno responsavelToUpdate);
+
+    void delete(Long id);
 }
