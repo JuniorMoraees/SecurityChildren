@@ -7,6 +7,9 @@ import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
 import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
 import br.com.jmtech.application.usecase.AlunoUseCase;
 import br.com.jmtech.infrastructure.domains.Aluno;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/securitychildren")
+@Api(value = "Alunos", tags = "Alunos")
 public class AlunoController {
 
     private static final String CREATED = "Criado com sucesso";
@@ -28,6 +32,7 @@ public class AlunoController {
 
     private final AlunoUseCase alunoUseCase;
 
+    @ApiOperation(value = "Cria um novo aluno")
     @PostMapping("/api/alunos")
     public ResponseEntity<DetailDTO> create(@Valid @RequestBody AlunoCreateDTO aluno) {
         Long id = alunoUseCase.create(aluno);
@@ -39,16 +44,19 @@ public class AlunoController {
                         .build());
     }
 
+    @ApiOperation(value = "Lista todos os alunos")
     @GetMapping("/api/alunos")
     public ResponseEntity<List<AlunoDTO>> findAll() {
         return ResponseEntity.ok(alunoUseCase.findAll());
     }
 
+    @ApiOperation(value = "Busca aluno por ID")
     @GetMapping("/api/alunos/{idAluno}")
     public ResponseEntity<AlunoSearchDTO> findById(@PathVariable Long idAluno) {
         return  ResponseEntity.ok(alunoUseCase.findById(idAluno));
     }
 
+    @ApiOperation(value = "Atualiza os dados de um aluno")
     @PutMapping("/api/alunos/{idAluno}")
     public ResponseEntity<DetailDTO> update(@PathVariable Long idAluno, @Valid @RequestBody AlunoUpdateDTO alunoUpdate) {
         alunoUseCase.update(alunoUpdate, idAluno);
@@ -60,6 +68,7 @@ public class AlunoController {
                         .build());
     }
 
+    @ApiOperation(value = "Remove um aluno")
     @DeleteMapping("/api/alunos/{idAluno}")
     public ResponseEntity<DetailDTO> delete(@PathVariable Long idAluno) {
         alunoUseCase.delete(idAluno);
