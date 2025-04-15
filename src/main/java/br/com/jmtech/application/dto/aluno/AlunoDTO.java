@@ -1,6 +1,5 @@
 package br.com.jmtech.application.dto.aluno;
 
-import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
 import lombok.*;
 
 @AllArgsConstructor

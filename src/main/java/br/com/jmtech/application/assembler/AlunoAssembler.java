@@ -6,8 +6,8 @@ import br.com.jmtech.application.dto.aluno.AlunoDTO;
 import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
 import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
 import br.com.jmtech.application.mapper.AlunoMapper;
-import br.com.jmtech.infrastructure.domains.Aluno;
-import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.Aluno;
+import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 

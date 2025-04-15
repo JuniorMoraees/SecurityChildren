@@ -1,14 +1,16 @@
 package br.com.jmtech.application.services;
 
-import br.com.jmtech.infrastructure.domains.*;
-import br.com.jmtech.interfaceAdapters.exception.DataBaseCreateException;
-import br.com.jmtech.interfaceAdapters.repositories.*;
+import br.com.jmtech.infrastructure.persistence.entity.Aluno;
+import br.com.jmtech.infrastructure.persistence.entity.QRCodeResponsavel;
+import br.com.jmtech.infrastructure.persistence.entity.RegistroEntrada;
+import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
+import br.com.jmtech.adapters.exception.DataBaseCreateException;
+import br.com.jmtech.adapters.repository.*;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;

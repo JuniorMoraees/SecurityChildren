@@ -4,7 +4,7 @@ import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
-import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

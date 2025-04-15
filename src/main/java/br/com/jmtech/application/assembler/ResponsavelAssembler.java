@@ -8,7 +8,7 @@ import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
 
 import br.com.jmtech.application.mapper.ResponsavelAlunoMapper;
 
-import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
