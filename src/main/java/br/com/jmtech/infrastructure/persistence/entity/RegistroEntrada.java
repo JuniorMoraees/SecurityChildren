@@ -31,7 +31,7 @@ public class RegistroEntrada {
       @Column(name = "data_entrada")
       private LocalDate dataEntrada;
 
-      @Column(name = "qrcode", length = 2000, nullable = false)
+      @Column(name = "qrcode", length = 8000, nullable = false)
       private String codigoQR;
 
 }

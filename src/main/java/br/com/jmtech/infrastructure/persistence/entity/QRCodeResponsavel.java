@@ -28,7 +28,7 @@ public class QRCodeResponsavel {
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
-    @Column(name = "qrcode", length = 2000)
+    @Column(name = "qrcode", length = 8000)
     private String codigoQR;
 
     @Column(name = "data_geracao")

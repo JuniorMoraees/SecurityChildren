@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class AlunoDTO {
 
+    private Long alunoId;
     private String nome;
     private byte[] foto;
     private ResponsavelAlunoDTO responsavelAluno;

@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class AlunoController {
 
     private final AlunoUseCase alunoUseCase;
 
-    @ApiOperation(value = "Cria um novo aluno")
+    @ApiOperation(value = "Cria um novo aluno", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PostMapping("/api/alunos")
     public ResponseEntity<DetailDTO> create(@Valid @RequestBody AlunoCreateDTO aluno) {
         Long id = alunoUseCase.create(aluno);

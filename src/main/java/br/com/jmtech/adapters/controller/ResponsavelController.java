@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class ResponsavelController {
 
     private final ResponsavelUseCase responsavelUseCase;
 
-    @ApiOperation(value = "Cria um novo responsável")
+    @ApiOperation(value = "Cria um novo responsável", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PostMapping("/api/responsaveis")
     public ResponseEntity<DetailDTO> create(@Valid @RequestBody ResponsavelAlunoCreateDTO responsavel) throws DataBaseCreateException {
         Long id = responsavelUseCase.create(responsavel);

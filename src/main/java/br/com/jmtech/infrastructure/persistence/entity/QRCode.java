@@ -29,7 +29,7 @@ public class QRCode {
     @JoinColumn(name = "idResponsavel")
     private ResponsavelAluno responsavel;
 
-    @Column(name = "qrcode", length = 2000)
+    @Column(name = "qrcode", length = 8000)
     private String codigoQR;
 
     @Column(name = "data_geracao")
