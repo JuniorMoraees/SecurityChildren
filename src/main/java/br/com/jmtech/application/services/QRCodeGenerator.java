@@ -1,9 +1,6 @@
 package br.com.jmtech.application.services;
 
-import br.com.jmtech.infrastructure.persistence.entity.Aluno;
-import br.com.jmtech.infrastructure.persistence.entity.QRCodeResponsavel;
-import br.com.jmtech.infrastructure.persistence.entity.RegistroEntrada;
-import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.*;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
 import br.com.jmtech.adapters.repository.*;
 import com.google.zxing.BarcodeFormat;
@@ -34,6 +31,7 @@ public class QRCodeGenerator {
     private final ResponsavelRepository responsavelRepository;
     private final AlunoRepository alunoRepository;
     private final RegistroEntradaRepository registroEntradaRepository;
+    private final QRCodeAlunoRepository qrcodeAlunoRepository;
 
     public void gerarQrCode(Long idAluno) throws DataBaseCreateException {
         try {
@@ -42,12 +40,15 @@ public class QRCodeGenerator {
 
             String qrCodeAlunoBase64 = gerarImagemQrBase64("QR Code do aluno: " + aluno.getNome());
 
-            aluno.setQrCode(qrCodeAlunoBase64);
-            alunoRepository.save(aluno);
+            QRCodeAluno qrCodeAluno = new QRCodeAluno();
+            qrCodeAluno.setAluno(aluno);
+            qrCodeAluno.setCodigoQR(qrCodeAlunoBase64);
+            qrCodeAluno.setDataGeracao(LocalDateTime.now());
+            qrcodeAlunoRepository.save(qrCodeAluno);
 
             qrcodeResponsavelRepository.deleteByAluno(aluno);
 
-            List<ResponsavelAluno> responsaveis = responsavelRepository.findByAlunosIdsContaining(aluno.getIdAluno());
+            List<ResponsavelAluno> responsaveis = responsavelRepository.findByAlunos_AlunoId(aluno.getAlunoId());
             for (ResponsavelAluno responsavel : responsaveis) {
                 String qrResponsavelTexto = "Responsável: " + responsavel.getNome() + " - Aluno: " + aluno.getNome();
                 String qrCodeResponsavelBase64 = gerarImagemQrBase64(qrResponsavelTexto);

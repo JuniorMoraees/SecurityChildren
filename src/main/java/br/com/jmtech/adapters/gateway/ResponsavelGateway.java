@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ResponsavelGateway {
 
-    ResponsavelAluno findByAlunoId(Long alunoId);
+    ResponsavelAluno findByAlunoId(Integer alunoId);
 
     ResponsavelAluno createResponsavel(ResponsavelAluno newResponsavel);
 

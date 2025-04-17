@@ -11,7 +11,6 @@ public class AlunoDTO {
 
     private String nome;
     private byte[] foto;
-
     private ResponsavelAlunoDTO responsavelAluno;
 
 

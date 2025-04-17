@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {TipoTelefoneMapper.class})
 public abstract class ResponsavelAlunoMapper {
 
     public static final ResponsavelAlunoMapper INSTANCE = Mappers.getMapper(ResponsavelAlunoMapper.class);

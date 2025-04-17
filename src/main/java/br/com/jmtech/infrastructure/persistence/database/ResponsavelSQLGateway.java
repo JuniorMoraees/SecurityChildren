@@ -21,8 +21,8 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
     private final ResponsavelRepository responsavelRepository;
 
     @Override
-    public ResponsavelAluno findByAlunoId(Long alunoId) {
-        return responsavelRepository.findByAlunoId(alunoId);
+    public ResponsavelAluno findByAlunoId(Integer alunoId) {
+        return responsavelRepository.findByAlunos_AlunoId(alunoId);
     }
 
     @Override

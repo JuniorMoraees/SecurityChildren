@@ -26,15 +26,13 @@ public class ResponsavelAluno {
     @Column(name = "cpf")
     private String cpf;
 
-    @ElementCollection
-    @CollectionTable(name = "responsavel_aluno_ids", joinColumns = @JoinColumn(name = "idResponsavel"))
-    @Column(name = "idAluno")
-    private List<Integer> alunosIds;
+    @OneToMany(mappedBy = "responsavel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Aluno> alunos;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idResponsavel")
     private List<Telefone> telefones;
 
-    @Column
+    @Column(name = "foto")
     private byte[] foto;
 }

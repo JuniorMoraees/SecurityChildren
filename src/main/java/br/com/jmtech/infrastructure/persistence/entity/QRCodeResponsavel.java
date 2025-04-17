@@ -17,17 +17,21 @@ public class QRCodeResponsavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_quecode")
     private Long idQRCode;
 
     @ManyToOne
+    @JoinColumn(name = "id_responsavel")
     private ResponsavelAluno responsavel;
 
     @ManyToOne
+    @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
-    @Column(length = 2000)
+    @Column(name = "qrcode", length = 2000)
     private String codigoQR;
 
+    @Column(name = "data_geracao")
     private LocalDateTime dataGeracao;
 
 }

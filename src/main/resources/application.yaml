@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    username: ${MYSQL_DB_USERNAME}
+    url: jdbc:mysql://localhost:3306/JMTechDB?createDatabaseIfNotExist=true
+    password: ${MYSQL_DB_PASSWORD}
+  thymeleaf:
+    enable: 'false'
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      show-sql: 'true'
+      ddl-auto: update
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+server:
+  port: ${MYSQL_DB_PORT}

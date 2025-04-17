@@ -16,11 +16,15 @@ public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idAluno")
-    private Long idAluno;
+    @Column(name = "aluno_id")
+    private Long alunoId;
 
     @Column(name = "nome")
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "responsavel_id")
+    private ResponsavelAluno responsavel;  // Relação com o responsável
 
     @Column(name = "qr_code")
     private String qrCode;

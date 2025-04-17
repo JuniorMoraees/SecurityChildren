@@ -33,14 +33,14 @@ public class AlunoUseCase {
 
     public AlunoDTO findAlunoByQRCode(String qrCode) {
         Aluno aluno = qrCodeReader.leitorQrCode(qrCode);
-        ResponsavelAluno responsavel = responsavelGateway.findByAlunoId(aluno.getIdAluno());
+        ResponsavelAluno responsavel = responsavelGateway.findByAlunoId(Math.toIntExact(aluno.getAlunoId()));
         return alunoAssembler.toAlunoDTO(aluno, responsavel);
     }
 
     public Long create(@Valid AlunoCreateDTO alunoDTO) {
         Aluno aluno = alunoAssembler.toAluno(alunoDTO);
 //        isExisteAluno(aluno);
-        return alunoGateway.createAluno(aluno).getIdAluno();
+        return alunoGateway.createAluno(aluno).getAlunoId();
     }
 
     public List<AlunoDTO> findAll() {
@@ -66,6 +66,6 @@ public class AlunoUseCase {
 
     public void delete(Long idAluno) {
         Aluno alunoForDelete = alunoGateway.findByIdOrElseThrow(idAluno);
-        alunoGateway.delete(alunoForDelete.getIdAluno());
+        alunoGateway.delete(alunoForDelete.getAlunoId());
     }
 }

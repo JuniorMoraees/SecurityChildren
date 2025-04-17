@@ -20,7 +20,9 @@ public abstract class AlunoMapper {
 
     public static final AlunoMapper INSTANCE = Mappers.getMapper(AlunoMapper.class);
 
-    @Mapping(target = "responsavel.foto", source = "responsavel.foto")
+    @Mapping(target = "responsavelAluno.foto", source = "responsavel.foto")
+    @Mapping(target = "nome", source = "aluno.nome")
+    @Mapping(target = "foto", source = "aluno.foto")
     public abstract AlunoDTO toAlunoDTO(Aluno aluno, ResponsavelAluno responsavel);
 
     public abstract List<AlunoDTO> toAlunoDTO(List<Aluno> aluno);
