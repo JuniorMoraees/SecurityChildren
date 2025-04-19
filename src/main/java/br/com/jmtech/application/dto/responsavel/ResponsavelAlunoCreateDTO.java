@@ -14,9 +14,9 @@ public class ResponsavelAlunoCreateDTO {
 
     private String nome;
     private String cpf;
-    private List<Integer> alunosIds;
+    private List<Long> alunosIds;
     private List<TelefoneCreateDTO> telefones;
-    private byte[] foto;
+//    private MultipartFile foto;
 
 
     @AllArgsConstructor
@@ -26,17 +26,8 @@ public class ResponsavelAlunoCreateDTO {
     @Builder
     public static class TelefoneCreateDTO {
 
-        private TipoTelefoneDTO tipoTelefone;
-        private Integer numero;
+//        private TipoTelefone tipoTelefone;
+        private Long numero;
     }
 
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    @Builder
-    public static class TipoTelefoneDTO {
-        private String descricao;
-    }
 }

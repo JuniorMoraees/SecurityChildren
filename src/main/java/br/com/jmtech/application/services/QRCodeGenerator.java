@@ -1,5 +1,6 @@
 package br.com.jmtech.application.services;
 
+import br.com.jmtech.adapters.exception.NotFoundException;
 import br.com.jmtech.infrastructure.persistence.entity.*;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
 import br.com.jmtech.adapters.repository.*;
@@ -36,7 +37,12 @@ public class QRCodeGenerator {
     public void gerarQrCode(Long idAluno) throws DataBaseCreateException {
         try {
             Aluno aluno = alunoRepository.findById(idAluno)
-                    .orElseThrow(() -> new DataBaseCreateException("Aluno não encontrado"));
+                    .orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+
+            List<ResponsavelAluno> responsaveis = responsavelRepository.findByAlunos_AlunoId(aluno.getAlunoId());
+            if (responsaveis.isEmpty()) {
+                throw new NotFoundException("Nenhum responsável vinculado ao aluno: " + aluno.getNome());
+            }
 
             String qrCodeAlunoBase64 = gerarImagemQrBase64("QR Code do aluno: " + aluno.getNome());
 
@@ -48,7 +54,6 @@ public class QRCodeGenerator {
 
             qrcodeResponsavelRepository.deleteByAluno(aluno);
 
-            List<ResponsavelAluno> responsaveis = responsavelRepository.findByAlunos_AlunoId(aluno.getAlunoId());
             for (ResponsavelAluno responsavel : responsaveis) {
                 String qrResponsavelTexto = "Responsável: " + responsavel.getNome() + " - Aluno: " + aluno.getNome();
                 String qrCodeResponsavelBase64 = gerarImagemQrBase64(qrResponsavelTexto);
@@ -62,7 +67,9 @@ public class QRCodeGenerator {
 
                 qrcodeResponsavelRepository.save(qrResponsavel);
 
-                enviarQrCodeViaWhatsApp(responsavel.getCpf(), aluno.getNome(), qrCodeResponsavelBase64);
+                String numeroString = responsavel.getTelefones().get(0).getNumero().toString();
+
+                enviarQrCodeViaWhatsApp(numeroString, aluno.getNome(), qrCodeResponsavelBase64);
 
                 RegistroEntrada registro = new RegistroEntrada();
                 registro.setAluno(aluno);
@@ -73,7 +80,7 @@ public class QRCodeGenerator {
             }
 
         } catch (Exception e) {
-            throw new DataBaseCreateException("Erro ao gerar ou enviar o QR Code");
+            throw new DataBaseCreateException("Erro ao gerar ou enviar o QR Code: " + e.getMessage());
         }
     }
 

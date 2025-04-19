@@ -1,10 +1,8 @@
 package br.com.jmtech.application.dto.responsavel;
 
-import br.com.jmtech.domain.enums.TipoTelefone;
-import br.com.jmtech.infrastructure.persistence.entity.Telefone;
+import br.com.jmtech.application.dto.aluno.AlunoDTO;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.List;
 
 
@@ -18,7 +16,7 @@ public class ResponsavelAlunoDTO {
 
     private String nome;
     private String cpf;
-    private List<Integer> alunosIds;
+    private List<AlunoDTO> alunos;
     private List<Telefone> telefones;
     private byte[] foto;
 
@@ -31,7 +29,7 @@ public class ResponsavelAlunoDTO {
     public static class Telefone {
 
         private TipoTelefone tipoTelefone;
-        private Integer numero;
+        private Long numero;
     }
 
     @AllArgsConstructor

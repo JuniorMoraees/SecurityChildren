@@ -24,7 +24,7 @@ public class Aluno {
 
     @ManyToOne
     @JoinColumn(name = "responsavel_id")
-    private ResponsavelAluno responsavel;  // Relação com o responsável
+    private ResponsavelAluno responsavel;
 
     @Column(name = "qr_code")
     private String qrCode;
