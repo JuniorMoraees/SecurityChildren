@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "TELEFONE")
+@Table(name = "telefone")
 public class Telefone {
 
     @Id
@@ -26,8 +26,4 @@ public class Telefone {
 
     @Column(name = "numero")
     private Long numero;
-
-    @ManyToOne
-    @JoinColumn(name = "idResponsavel", referencedColumnName = "idResponsavel")
-    private ResponsavelAluno responsavel;
 }

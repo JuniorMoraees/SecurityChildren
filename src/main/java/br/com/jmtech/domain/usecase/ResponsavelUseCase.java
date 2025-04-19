@@ -5,7 +5,7 @@ import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
-import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
 import br.com.jmtech.adapters.gateway.ResponsavelGateway;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class ResponsavelUseCase {
     private final EntityManager manager;
 
     public Long create(ResponsavelAlunoCreateDTO responsavelAlunoCreateDTO) throws DataBaseCreateException {
-        ResponsavelAluno newResponsavel = responsavelAssembler.toResponsavel(responsavelAlunoCreateDTO);
+        Responsavel newResponsavel = responsavelAssembler.toResponsavel(responsavelAlunoCreateDTO);
         isExistResponsavel(newResponsavel);
         return responsavelGateway.createResponsavel(newResponsavel).getId();
     }
@@ -37,8 +37,8 @@ public class ResponsavelUseCase {
     }
 
 
-    public void isExistResponsavel(ResponsavelAluno responsavel) throws DataBaseCreateException {
-        Optional<ResponsavelAluno> responsavelDb;
+    public void isExistResponsavel(Responsavel responsavel) throws DataBaseCreateException {
+        Optional<Responsavel> responsavelDb;
         if (responsavel.getCpf() != null) {
             if (responsavel.getId() != null ) {
                 responsavelDb = responsavelGateway.findResponsavelAlunoByCpfAndIdIsNot(responsavel.getCpf(), responsavel.getId());
@@ -52,24 +52,24 @@ public class ResponsavelUseCase {
     }
 
     public ResponsavelAlunoSearchDTO findById(Long idResponsavel) {
-        ResponsavelAluno responsavel = responsavelGateway.findByIdOrElseThrow(idResponsavel);
+        Responsavel responsavel = responsavelGateway.findByIdOrElseThrow(idResponsavel);
         return responsavelAssembler.toResponsavelSearchDTO(responsavel);
     }
 
     public void update(ResponsavelAlunoUpdateDTO responsavelAlunoUpdate, long idResponsavel) throws DataBaseCreateException {
-        ResponsavelAluno responsavelToUpdate = mapToClient(responsavelAlunoUpdate, idResponsavel);
+        Responsavel responsavelToUpdate = mapToClient(responsavelAlunoUpdate, idResponsavel);
         manager.clear();
         isExistResponsavel(responsavelToUpdate);
         responsavelGateway.updateResponsavel(responsavelToUpdate);
     }
 
-    private ResponsavelAluno mapToClient(ResponsavelAlunoUpdateDTO responsavelAlunoUpdate, long idResponsavel) {
-        ResponsavelAluno existResponsavel = responsavelGateway.findByIdOrElseThrow(idResponsavel);
+    private Responsavel mapToClient(ResponsavelAlunoUpdateDTO responsavelAlunoUpdate, long idResponsavel) {
+        Responsavel existResponsavel = responsavelGateway.findByIdOrElseThrow(idResponsavel);
         return responsavelAssembler.toResponsavel(responsavelAlunoUpdate, existResponsavel, idResponsavel);
     }
 
     public void delete(long idResponsavel) {
-        ResponsavelAluno responsavelForDelete = responsavelGateway.findByIdOrElseThrow(idResponsavel);
+        Responsavel responsavelForDelete = responsavelGateway.findByIdOrElseThrow(idResponsavel);
         responsavelGateway.delete(responsavelForDelete.getId());
     }
 }

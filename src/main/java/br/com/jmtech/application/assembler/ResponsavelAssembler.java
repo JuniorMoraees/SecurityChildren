@@ -11,7 +11,7 @@ import br.com.jmtech.application.mapper.AlunoMapper;
 import br.com.jmtech.application.mapper.ResponsavelAlunoMapper;
 
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
-import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import br.com.jmtech.infrastructure.persistence.entity.Telefone;
 import br.com.jmtech.infrastructure.persistence.entity.TipoTelefone;
 import lombok.AllArgsConstructor;
@@ -38,10 +38,10 @@ public class ResponsavelAssembler {
     @Autowired
     private AlunoMapper alunoMapper;
 
-    public ResponsavelAluno toResponsavel(ResponsavelAlunoCreateDTO dto) {
+    public Responsavel toResponsavel(ResponsavelAlunoCreateDTO dto) {
         if (dto == null) return null;
 
-        ResponsavelAluno newResponsavel = new ResponsavelAluno();
+        Responsavel newResponsavel = new Responsavel();
 
         newResponsavel.setNome(dto.getNome());
         newResponsavel.setCpf(dto.getCpf());
@@ -69,7 +69,7 @@ public class ResponsavelAssembler {
         }).collect(Collectors.toList());
     }
 
-    public ResponsavelAluno toResponsavel(ResponsavelAlunoUpdateDTO responsavelUpdateDTO, ResponsavelAluno existResponsavel, long idResponsavel) {
+    public Responsavel toResponsavel(ResponsavelAlunoUpdateDTO responsavelUpdateDTO, Responsavel existResponsavel, long idResponsavel) {
         return ResponsavelAlunoMapper.INSTANCE.toResponsavel(responsavelUpdateDTO, existResponsavel, new ResponsavelAlunoMapper.ResponsavelContext(idResponsavel));
     }
 
@@ -77,38 +77,38 @@ public class ResponsavelAssembler {
 //        return ResponsavelAlunoMapper.INSTANCE.toResponsavelDTO(responsaveis);
 //    }
 
-    public List<ResponsavelAlunoDTO> toResponsavelDTO(List<ResponsavelAluno> responsavel) {
+    public List<ResponsavelAlunoDTO> toResponsavelDTO(List<Responsavel> responsavel) {
         if ( responsavel == null ) {
             return null;
         }
 
         List<ResponsavelAlunoDTO> list = new ArrayList<ResponsavelAlunoDTO>( responsavel.size() );
-        for ( ResponsavelAluno responsavelAluno : responsavel ) {
+        for ( Responsavel responsavelAluno : responsavel ) {
             list.add( responsavelAlunoToResponsavelAlunoDTO( responsavelAluno ) );
         }
 
         return list;
     }
 
-    protected ResponsavelAlunoDTO responsavelAlunoToResponsavelAlunoDTO(ResponsavelAluno responsavelAluno) {
-        if (responsavelAluno == null) {
+    protected ResponsavelAlunoDTO responsavelAlunoToResponsavelAlunoDTO(Responsavel responsavel) {
+        if (responsavel == null) {
             return null;
         }
 
         ResponsavelAlunoDTO.ResponsavelAlunoDTOBuilder responsavelAlunoDTO = ResponsavelAlunoDTO.builder();
 
-        responsavelAlunoDTO.nome(responsavelAluno.getNome());
-        responsavelAlunoDTO.cpf(responsavelAluno.getCpf());
+        responsavelAlunoDTO.nome(responsavel.getNome());
+        responsavelAlunoDTO.cpf(responsavel.getCpf());
 
-        if (responsavelAluno.getAlunos() != null && !responsavelAluno.getAlunos().isEmpty()) {
-            responsavelAluno.getAlunos().size();
-            responsavelAlunoDTO.alunos(alunoMapper.toAlunoDTO(responsavelAluno.getAlunos()));
+        if (responsavel.getAlunos() != null && !responsavel.getAlunos().isEmpty()) {
+            responsavel.getAlunos().size();
+            responsavelAlunoDTO.alunos(alunoMapper.toAlunoDTO(responsavel.getAlunos()));
         } else {
             responsavelAlunoDTO.alunos(Collections.emptyList());
         }
 
-        responsavelAlunoDTO.telefones(telefoneListToTelefoneList(responsavelAluno.getTelefones()));
-        byte[] foto = responsavelAluno.getFoto();
+        responsavelAlunoDTO.telefones(telefoneListToTelefoneList(responsavel.getTelefones()));
+        byte[] foto = responsavel.getFoto();
         if (foto != null) {
             responsavelAlunoDTO.foto(Arrays.copyOf(foto, foto.length));
         }
@@ -150,7 +150,7 @@ public class ResponsavelAssembler {
         return tipoTelefone1.build();
     }
 
-    public ResponsavelAlunoSearchDTO toResponsavelSearchDTO(ResponsavelAluno responsavel) {
+    public ResponsavelAlunoSearchDTO toResponsavelSearchDTO(Responsavel responsavel) {
         return ResponsavelAlunoMapper.INSTANCE.toResponsavelSearchDTO(responsavel);
     }
 }

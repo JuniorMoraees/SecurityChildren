@@ -1,25 +1,27 @@
 package br.com.jmtech.adapters.gateway;
 
-import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ResponsavelGateway {
 
-    ResponsavelAluno findByAlunoId(Integer alunoId);
+//    Responsavel findByAlunoId(Integer alunoId);
 
-    ResponsavelAluno createResponsavel(ResponsavelAluno newResponsavel);
+    Responsavel findByAlunoId(Long alunoId);
 
-    Optional<ResponsavelAluno> findResponsavelAlunoByCpfAndIdIsNot(String cpf, Long id);
+    Responsavel createResponsavel(Responsavel newResponsavel);
 
-    Optional<ResponsavelAluno> findByCpf(String cpf);
+    Optional<Responsavel> findResponsavelAlunoByCpfAndIdIsNot(String cpf, Long id);
 
-    List<ResponsavelAluno> findAll();
+    Optional<Responsavel> findByCpf(String cpf);
 
-    ResponsavelAluno findByIdOrElseThrow(Long idResponsavel);
+    List<Responsavel> findAll();
 
-    ResponsavelAluno updateResponsavel(ResponsavelAluno responsavelToUpdate);
+    Responsavel findByIdOrElseThrow(Long idResponsavel);
+
+    Responsavel updateResponsavel(Responsavel responsavelToUpdate);
 
     void delete(Long id);
 }

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "RegistroEntrada")
+@Table(name = "registro_entrada")
 public class RegistroEntrada {
 
       @Id
@@ -26,7 +26,7 @@ public class RegistroEntrada {
 
       @ManyToOne(optional = false)
       @JoinColumn(name = "idResponsavel")
-      private ResponsavelAluno responsavel;
+      private Responsavel responsavel;
 
       @Column(name = "data_entrada")
       private LocalDate dataEntrada;
