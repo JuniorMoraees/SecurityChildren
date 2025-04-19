@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "QRCodeAluno")
+@Table(name = "qr_code_aluno")
 public class QRCodeAluno {
 
     @Id

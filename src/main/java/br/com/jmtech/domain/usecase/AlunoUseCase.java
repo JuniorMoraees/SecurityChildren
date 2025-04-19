@@ -2,13 +2,11 @@ package br.com.jmtech.domain.usecase;
 
 
 import br.com.jmtech.application.assembler.AlunoAssembler;
-import br.com.jmtech.application.dto.aluno.AlunoCreateDTO;
-import br.com.jmtech.application.dto.aluno.AlunoDTO;
-import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
-import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
+import br.com.jmtech.application.dto.aluno.*;
 import br.com.jmtech.application.services.QrCodeReader;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
-import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.QRCodeResponsavel;
+import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import br.com.jmtech.adapters.gateway.AlunoGateway;
 import br.com.jmtech.adapters.gateway.ResponsavelGateway;
 import lombok.AllArgsConstructor;
@@ -31,10 +29,9 @@ public class AlunoUseCase {
     @PersistenceContext
     private final EntityManager manager;
 
-    public AlunoDTO findAlunoByQRCode(String qrCode) {
-        Aluno aluno = qrCodeReader.leitorQrCode(qrCode);
-        ResponsavelAluno responsavel = responsavelGateway.findByAlunoId(Math.toIntExact(aluno.getAlunoId()));
-        return alunoAssembler.toAlunoDTO(aluno, responsavel);
+    public AlunoResponsavelDTO findAlunoByQRCode(String qrCode) {
+        QRCodeResponsavel codigo = qrCodeReader.leitorQrCode(qrCode);
+        return alunoAssembler.toAlunoResponsavelDTO(codigo.getAluno(), codigo.getResponsavel());
     }
 
     public Long create(@Valid AlunoCreateDTO alunoDTO) {

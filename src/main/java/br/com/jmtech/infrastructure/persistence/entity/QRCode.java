@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "QRCode")
+@Table(name = "qr_code")
 public class QRCode {
 
     @Id
@@ -27,7 +27,7 @@ public class QRCode {
 
     @ManyToOne
     @JoinColumn(name = "idResponsavel")
-    private ResponsavelAluno responsavel;
+    private Responsavel responsavel;
 
     @Column(name = "qrcode", length = 8000)
     private String codigoQR;

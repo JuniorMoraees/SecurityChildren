@@ -3,6 +3,7 @@ package br.com.jmtech.infrastructure.persistence.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "ALUNO")
+@Table(name = "aluno")
 public class Aluno {
 
     @Id
@@ -22,9 +23,8 @@ public class Aluno {
     @Column(name = "nome")
     private String nome;
 
-    @ManyToOne
-    @JoinColumn(name = "responsavel_id")
-    private ResponsavelAluno responsavel;
+    @ManyToMany(mappedBy = "alunos")
+    private List<Responsavel> responsaveis;
 
     @Column(name = "qr_code")
     private String qrCode;
