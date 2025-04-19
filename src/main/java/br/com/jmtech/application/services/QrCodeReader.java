@@ -1,10 +1,10 @@
 package br.com.jmtech.application.services;
 
-import br.com.jmtech.infrastructure.domains.Aluno;
-import br.com.jmtech.infrastructure.domains.QRCode;
-import br.com.jmtech.interfaceAdapters.exception.ExpiredQRCodeException;
-import br.com.jmtech.interfaceAdapters.exception.NotFoundException;
-import br.com.jmtech.interfaceAdapters.repositories.QRCodeRepository;
+import br.com.jmtech.infrastructure.persistence.entity.Aluno;
+import br.com.jmtech.infrastructure.persistence.entity.QRCode;
+import br.com.jmtech.adapters.exception.ExpiredQRCodeException;
+import br.com.jmtech.adapters.exception.NotFoundException;
+import br.com.jmtech.adapters.repository.QRCodeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

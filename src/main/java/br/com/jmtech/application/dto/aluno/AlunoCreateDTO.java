@@ -1,6 +1,7 @@
 package br.com.jmtech.application.dto.aluno;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,6 +11,5 @@ import lombok.*;
 public class AlunoCreateDTO {
 
     private String nome;
-    private String qrCode;
-    private byte[] foto;
+    private MultipartFile foto;
 }

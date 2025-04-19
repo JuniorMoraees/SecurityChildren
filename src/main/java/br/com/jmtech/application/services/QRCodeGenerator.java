@@ -1,14 +1,14 @@
 package br.com.jmtech.application.services;
 
-import br.com.jmtech.infrastructure.domains.*;
-import br.com.jmtech.interfaceAdapters.exception.DataBaseCreateException;
-import br.com.jmtech.interfaceAdapters.repositories.*;
+import br.com.jmtech.adapters.exception.NotFoundException;
+import br.com.jmtech.infrastructure.persistence.entity.*;
+import br.com.jmtech.adapters.exception.DataBaseCreateException;
+import br.com.jmtech.adapters.repository.*;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.Store;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -32,20 +32,28 @@ public class QRCodeGenerator {
     private final ResponsavelRepository responsavelRepository;
     private final AlunoRepository alunoRepository;
     private final RegistroEntradaRepository registroEntradaRepository;
+    private final QRCodeAlunoRepository qrcodeAlunoRepository;
 
     public void gerarQrCode(Long idAluno) throws DataBaseCreateException {
         try {
             Aluno aluno = alunoRepository.findById(idAluno)
-                    .orElseThrow(() -> new DataBaseCreateException("Aluno não encontrado"));
+                    .orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
+
+            List<ResponsavelAluno> responsaveis = responsavelRepository.findByAlunos_AlunoId(aluno.getAlunoId());
+            if (responsaveis.isEmpty()) {
+                throw new NotFoundException("Nenhum responsável vinculado ao aluno: " + aluno.getNome());
+            }
 
             String qrCodeAlunoBase64 = gerarImagemQrBase64("QR Code do aluno: " + aluno.getNome());
 
-            aluno.setQrCode(qrCodeAlunoBase64);
-            alunoRepository.save(aluno);
+            QRCodeAluno qrCodeAluno = new QRCodeAluno();
+            qrCodeAluno.setAluno(aluno);
+            qrCodeAluno.setCodigoQR(qrCodeAlunoBase64);
+            qrCodeAluno.setDataGeracao(LocalDateTime.now());
+            qrcodeAlunoRepository.save(qrCodeAluno);
 
             qrcodeResponsavelRepository.deleteByAluno(aluno);
 
-            List<ResponsavelAluno> responsaveis = responsavelRepository.findByAlunosIdsContaining(aluno.getIdAluno());
             for (ResponsavelAluno responsavel : responsaveis) {
                 String qrResponsavelTexto = "Responsável: " + responsavel.getNome() + " - Aluno: " + aluno.getNome();
                 String qrCodeResponsavelBase64 = gerarImagemQrBase64(qrResponsavelTexto);
@@ -59,7 +67,9 @@ public class QRCodeGenerator {
 
                 qrcodeResponsavelRepository.save(qrResponsavel);
 
-                enviarQrCodeViaWhatsApp(responsavel.getCpf(), aluno.getNome(), qrCodeResponsavelBase64);
+                String numeroString = responsavel.getTelefones().get(0).getNumero().toString();
+
+                enviarQrCodeViaWhatsApp(numeroString, aluno.getNome(), qrCodeResponsavelBase64);
 
                 RegistroEntrada registro = new RegistroEntrada();
                 registro.setAluno(aluno);
@@ -70,7 +80,7 @@ public class QRCodeGenerator {
             }
 
         } catch (Exception e) {
-            throw new DataBaseCreateException("Erro ao gerar ou enviar o QR Code");
+            throw new DataBaseCreateException("Erro ao gerar ou enviar o QR Code: " + e.getMessage());
         }
     }
 

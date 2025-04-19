@@ -1,0 +1,8 @@
+package br.com.jmtech.adapters.exception;
+
+public class UnprocessableEntityException extends Exception {
+
+    public UnprocessableEntityException(String message) {
+        super(message);
+    }
+}

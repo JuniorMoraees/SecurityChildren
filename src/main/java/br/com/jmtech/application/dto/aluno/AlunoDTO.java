@@ -1,6 +1,5 @@
 package br.com.jmtech.application.dto.aluno;
 
-import br.com.jmtech.infrastructure.domains.ResponsavelAluno;
 import lombok.*;
 
 @AllArgsConstructor
@@ -10,9 +9,9 @@ import lombok.*;
 @Builder
 public class AlunoDTO {
 
+    private Long alunoId;
     private String nome;
     private byte[] foto;
-
     private ResponsavelAlunoDTO responsavelAluno;
 
 
