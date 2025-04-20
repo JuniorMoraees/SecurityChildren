@@ -1,7 +1,8 @@
 spring:
   datasource:
     username: ${MYSQL_DB_USERNAME}
-    url: jdbc:mysql://localhost:3306/JMTechDB?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/${MYSQL_DB_NAME}
+#    url: jdbc:mysql://localhost:3306/JMTechDB?createDatabaseIfNotExist=true
     password: ${MYSQL_DB_PASSWORD}
   thymeleaf:
     enable: 'false'
