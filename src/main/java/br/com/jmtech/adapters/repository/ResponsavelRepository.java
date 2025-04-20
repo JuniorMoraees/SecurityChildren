@@ -1,7 +1,9 @@
 package br.com.jmtech.adapters.repository;
 
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
+import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,9 +13,10 @@ import java.util.Optional;
 public interface ResponsavelRepository extends JpaRepository<Responsavel, Long> {
 
 
-//    List<ResponsavelAluno> findByAlunosContaining(Aluno aluno);
+    List<Responsavel> findByAlunos_AlunoId(Long aluno);
 
-    List<Responsavel> findByAlunos_AlunoId(Long alunoId);
+   /* @Query("SELECT ra.responsavel FROM ResponsavelAluno ra WHERE ra.aluno.alunoId = :alunoId AND ra.ativo = true")
+    List<Responsavel> findResponsaveisAtivosByAlunoId(Long alunoId);*/
 
 //    Responsavel findByAlunos_AlunoId(Integer alunoId);
 
