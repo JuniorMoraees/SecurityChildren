@@ -1,9 +1,8 @@
 spring:
   datasource:
-    username: ${MYSQL_DB_USERNAME}
-    url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/${MYSQL_DB_NAME}
-#    url: jdbc:mysql://localhost:3306/JMTechDB?createDatabaseIfNotExist=true
-    password: ${MYSQL_DB_PASSWORD}
+    username: ${MYSQLUSER}
+    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+    password: ${MYSQLPASSWORD}
   thymeleaf:
     enable: 'false'
   jpa:
@@ -18,4 +17,4 @@ spring:
       matching-strategy: ant_path_matcher
 
 server:
-  port: ${MYSQL_DB_PORT}
+  port: ${MYSQLPORT}
