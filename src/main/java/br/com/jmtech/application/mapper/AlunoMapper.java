@@ -6,7 +6,7 @@ import br.com.jmtech.application.dto.aluno.AlunoDTO;
 import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
 import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
-import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
+import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,7 +25,7 @@ public abstract class AlunoMapper {
     @Mapping(target = "responsavelAluno.foto", source = "responsavel.foto")
     @Mapping(target = "nome", source = "aluno.nome")
     @Mapping(target = "foto", source = "aluno.foto")
-    public abstract AlunoDTO toAlunoDTO(Aluno aluno, ResponsavelAluno responsavel);
+    public abstract AlunoDTO toAlunoDTO(Aluno aluno, Responsavel responsavel);
 
     public abstract List<AlunoDTO> toAlunoDTO(List<Aluno> aluno);
 

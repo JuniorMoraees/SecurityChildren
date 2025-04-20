@@ -38,6 +38,6 @@ public class ResponsavelAlunoDTO {
     @Setter
     @Builder
     public static class TipoTelefone {
-        private String descricao;
+        private String tipoTelefone;
     }
 }

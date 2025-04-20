@@ -1,8 +1,10 @@
 package br.com.jmtech.adapters.controller;
 
 import br.com.jmtech.application.dto.DetailDTO;
+import br.com.jmtech.application.dto.QRCode.QRCodeDTO;
 import br.com.jmtech.application.dto.aluno.AlunoDTO;
 
+import br.com.jmtech.application.dto.aluno.AlunoResponsavelDTO;
 import br.com.jmtech.domain.usecase.AlunoUseCase;
 import br.com.jmtech.domain.usecase.QRCodeUseCase;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
@@ -25,9 +27,9 @@ public class QRCodeController {
     private final QRCodeUseCase qrCodeUseCase;
 
     @ApiOperation(value = "Lê QR Code do responsável e retorna o aluno vinculado")
-    @GetMapping("/api/ler/{qrCode}")
-    public ResponseEntity<AlunoDTO> getQRCode(@PathVariable String qrCode) {
-        return ResponseEntity.ok(alunoUseCase.findAlunoByQRCode(qrCode));
+    @PostMapping("/api/ler")
+    public ResponseEntity<AlunoResponsavelDTO> getQRCode(@RequestBody QRCodeDTO dto) {
+        return ResponseEntity.ok(alunoUseCase.findAlunoByQRCode(dto.getQrCode()));
     }
 
     @ApiOperation(value = "Gera QR Code para o aluno e envia aos responsáveis")

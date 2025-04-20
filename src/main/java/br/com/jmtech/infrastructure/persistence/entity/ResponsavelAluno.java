@@ -3,7 +3,7 @@ package br.com.jmtech.infrastructure.persistence.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,27 +12,20 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "RESPONSAVEL")
+@Table(name = "responsavel_aluno")
 public class ResponsavelAluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idResponsavel")
+    @Column(name = "id_responsavel_aluno")
     private Long id;
 
-    @Column(name = "nome")
-    private String nome;
+    @ManyToOne
+    @JoinColumn(name = "responsavel_id")
+    private Responsavel responsavel;
 
-    @Column(name = "cpf")
-    private String cpf;
+    @ManyToOne
+    @JoinColumn(name = "aluno_id")
+    private Aluno aluno;
 
-    @OneToMany(mappedBy = "responsavel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Aluno> alunos;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "idResponsavel")
-    private List<Telefone> telefones;
-
-    @Column(name = "foto")
-    private byte[] foto;
 }

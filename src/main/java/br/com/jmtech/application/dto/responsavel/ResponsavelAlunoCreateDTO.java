@@ -1,5 +1,6 @@
 package br.com.jmtech.application.dto.responsavel;
 
+import br.com.jmtech.infrastructure.persistence.entity.TipoTelefone;
 import lombok.*;
 
 import java.util.List;
@@ -16,18 +17,18 @@ public class ResponsavelAlunoCreateDTO {
     private String cpf;
     private List<Long> alunosIds;
     private List<TelefoneCreateDTO> telefones;
-//    private MultipartFile foto;
 
+    // Se quiser trabalhar com upload futuramente:
+    // private MultipartFile foto;
 
-    @AllArgsConstructor
-    @NoArgsConstructor
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Builder
     public static class TelefoneCreateDTO {
-
-//        private TipoTelefone tipoTelefone;
         private Long numero;
+        private Long tipoTelefoneId;
     }
 
 }
