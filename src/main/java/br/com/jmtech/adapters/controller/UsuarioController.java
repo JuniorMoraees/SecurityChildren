@@ -7,10 +7,10 @@ import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioSearchDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioUpdateDTO;
 import br.com.jmtech.domain.usecase.UsuarioUseCase;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/usuario")
+@Tag(name = "Usuario", description = "Operações relacionadas aos dados dos usuarios")
 public class UsuarioController {
 
     private static final String CREATED = "Criado com sucesso";
@@ -31,7 +32,7 @@ public class UsuarioController {
     private final UsuarioUseCase usuarioUseCase;
 
 
-    @ApiOperation(value = "Cria um novo Usuario", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Cria um novo Usuario")
     @PostMapping
     public ResponseEntity<DetailDTO> create(@Valid @RequestBody UsuarioCreateDTO usuario) throws DataBaseCreateException {
         Long id = usuarioUseCase.create(usuario);
@@ -43,19 +44,19 @@ public class UsuarioController {
                         .build());
     }
 
-    @ApiOperation(value = "Lista todos os usuarios")
+    @Operation(summary = "Lista todos os usuarios")
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> findAll() {
         return ResponseEntity.ok(usuarioUseCase.findAll());
     }
 
-    @ApiOperation(value = "Busca usuario por ID")
+    @Operation(summary = "Busca usuario por ID")
     @GetMapping("/{idUsuario}")
     public ResponseEntity<UsuarioSearchDTO> findById(@PathVariable Long idUsuario) {
         return  ResponseEntity.ok(usuarioUseCase.findById(idUsuario));
     }
 
-    @ApiOperation(value = "Atualiza os dados de um usuario")
+    @Operation(summary = "Atualiza os dados de um usuario")
     @PutMapping("/{idUsuario}")
     public ResponseEntity<DetailDTO> update(@PathVariable Long idUsuario, @Valid @RequestBody UsuarioUpdateDTO usuarioUpdate) throws DataBaseCreateException {
         usuarioUseCase.update(usuarioUpdate, idUsuario);
@@ -67,7 +68,7 @@ public class UsuarioController {
                         .build());
     }
 
-    @ApiOperation(value = "Remove um usuario")
+    @Operation(summary = "Remove um usuario")
     @DeleteMapping("/{idAluno}")
     public ResponseEntity<DetailDTO> delete(@PathVariable Long idUsuario) {
         usuarioUseCase.delete(idUsuario);
