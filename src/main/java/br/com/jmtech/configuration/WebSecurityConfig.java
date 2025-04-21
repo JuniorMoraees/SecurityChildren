@@ -16,9 +16,15 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .antMatchers("/auth/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .antMatchers(
+                                "/auth/login",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
+
         return http.build();
     }
 

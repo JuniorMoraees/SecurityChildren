@@ -25,8 +25,8 @@ public class SecurityAccess {
     public boolean autenticar(String username, String senha) {
         Usuario usuario = usuarioRepository.findByUsername(username);
 
-        if (usuario != null && passwordEncoder.matches(senha, usuario.getSenha())) {
-            return true;
+        if (usuario != null){
+            return passwordEncoder.matches(senha, usuario.getSenha());
         }
 
         return false;

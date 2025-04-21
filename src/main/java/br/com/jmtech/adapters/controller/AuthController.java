@@ -6,6 +6,7 @@ import br.com.jmtech.infrastructure.access.SecurityAccess;
 import br.com.jmtech.infrastructure.access.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Autenticação", description = "Operações relacionadas à autenticação de usuários")
 public class AuthController {
 
-    private SecurityAccess securityAccess = new SecurityAccess();
+    @Autowired
+    private SecurityAccess securityAccess;
 
     @Operation(summary = "Realiza login do usuário")
     @PostMapping("/login")
