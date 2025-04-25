@@ -18,13 +18,13 @@ public class SecurityChildrenApplication {
         SpringApplication.run(SecurityChildrenApplication.class, args);
     }
 
-    @Bean
+   /* @Bean
     public FilterRegistrationBean<JwtFilter> jwtFilter() {
         FilterRegistrationBean<JwtFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new JwtFilter());
         bean.addUrlPatterns("/securitychildren/*");
         return bean;
-    }
+    }*/
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

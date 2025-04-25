@@ -11,4 +11,5 @@ public class UsuarioSearchDTO {
 
     private String nome;
     private String username;
+
 }

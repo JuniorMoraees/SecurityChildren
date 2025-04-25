@@ -52,6 +52,7 @@ public class SecurityAccess {
                     .getBody();
             return claims.getSubject();
         } catch (Exception e) {
+            e.printStackTrace(); // <- LOGA O ERRO AQUI
             return null;
         }
     }
