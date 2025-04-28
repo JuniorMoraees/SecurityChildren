@@ -8,8 +8,8 @@ import br.com.jmtech.application.dto.aluno.AlunoResponsavelDTO;
 import br.com.jmtech.domain.usecase.AlunoUseCase;
 import br.com.jmtech.domain.usecase.QRCodeUseCase;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -20,19 +20,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/securitychildren")
-@Api(value = "Responsáveis", tags = "QRCode")
+@Tag(name = "QRCode", description = "Operações relacionadas à geração e envio de QRCode")
 public class QRCodeController {
 
     private final AlunoUseCase alunoUseCase;
     private final QRCodeUseCase qrCodeUseCase;
 
-    @ApiOperation(value = "Lê QR Code do responsável e retorna o aluno vinculado")
+    @Operation(summary = "Lê QR Code do responsável e retorna o aluno vinculado")
     @PostMapping("/api/ler")
     public ResponseEntity<AlunoResponsavelDTO> getQRCode(@RequestBody QRCodeDTO dto) {
         return ResponseEntity.ok(alunoUseCase.findAlunoByQRCode(dto.getQrCode()));
     }
 
-    @ApiOperation(value = "Gera QR Code para o aluno e envia aos responsáveis")
+    @Operation(summary = "Gera QR Code para o aluno e envia aos responsáveis")
     @PostMapping("/api/gerar/{idAluno}")
     public ResponseEntity<DetailDTO> gerarQrCode(@PathVariable Long idAluno) {
         try {
