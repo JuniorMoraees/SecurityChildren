@@ -6,11 +6,10 @@ import br.com.jmtech.application.dto.aluno.AlunoDTO;
 import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
 import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
 import br.com.jmtech.domain.usecase.AlunoUseCase;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/securitychildren")
-@Api(value = "Alunos", tags = "Alunos")
+@Tag(name = "Alunos", description = "Operações relacionadas aos dados de alunos")
 public class AlunoController {
 
     private static final String CREATED = "Criado com sucesso";
@@ -31,7 +30,7 @@ public class AlunoController {
 
     private final AlunoUseCase alunoUseCase;
 
-    @ApiOperation(value = "Cria um novo aluno", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Cria um novo aluno")
     @PostMapping("/api/alunos")
     public ResponseEntity<DetailDTO> create(@Valid @RequestBody AlunoCreateDTO aluno) {
         Long id = alunoUseCase.create(aluno);
@@ -43,19 +42,19 @@ public class AlunoController {
                         .build());
     }
 
-    @ApiOperation(value = "Lista todos os alunos")
+    @Operation(summary = "Lista todos os alunos")
     @GetMapping("/api/alunos")
     public ResponseEntity<List<AlunoDTO>> findAll() {
         return ResponseEntity.ok(alunoUseCase.findAll());
     }
 
-    @ApiOperation(value = "Busca aluno por ID")
+    @Operation(summary = "Busca aluno por ID")
     @GetMapping("/api/alunos/{idAluno}")
     public ResponseEntity<AlunoSearchDTO> findById(@PathVariable Long idAluno) {
         return  ResponseEntity.ok(alunoUseCase.findById(idAluno));
     }
 
-    @ApiOperation(value = "Atualiza os dados de um aluno")
+    @Operation(summary = "Atualiza os dados de um aluno")
     @PutMapping("/api/alunos/{idAluno}")
     public ResponseEntity<DetailDTO> update(@PathVariable Long idAluno, @Valid @RequestBody AlunoUpdateDTO alunoUpdate) {
         alunoUseCase.update(alunoUpdate, idAluno);
@@ -67,7 +66,7 @@ public class AlunoController {
                         .build());
     }
 
-    @ApiOperation(value = "Remove um aluno")
+    @Operation(summary = "Remove um aluno")
     @DeleteMapping("/api/alunos/{idAluno}")
     public ResponseEntity<DetailDTO> delete(@PathVariable Long idAluno) {
         alunoUseCase.delete(idAluno);
