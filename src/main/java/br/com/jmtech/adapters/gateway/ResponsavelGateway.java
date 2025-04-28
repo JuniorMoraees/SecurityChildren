@@ -1,5 +1,6 @@
 package br.com.jmtech.adapters.gateway;
 
+import br.com.jmtech.application.dto.responsavel.ResponsavelSearchDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface ResponsavelGateway {
     Responsavel updateResponsavel(Responsavel responsavelToUpdate);
 
     void delete(Long id);
+
+    List<Responsavel> findByName(String nome);
 }

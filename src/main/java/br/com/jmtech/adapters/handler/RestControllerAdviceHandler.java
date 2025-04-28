@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,6 +38,25 @@ public class RestControllerAdviceHandler extends ResponseEntityExceptionHandler 
         DetailDTO apiError = createApiErrorBuilder(status, errorType, detail);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
     }
+
+    @ExceptionHandler({InvalidCredentialsException.class, UsernameNotFoundException.class})
+    public ResponseEntity<Object> handleInvalidCredentialsException(Exception ex, WebRequest request) {
+        HttpStatus status = HttpStatus.UNAUTHORIZED;
+        ErrorType errorType = ErrorType.UNAUTHORIZED;
+        String detail = "Matrícula ou senha incorretos";
+        DetailDTO apiError = createApiErrorBuilder(status, errorType, detail);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler({ForbiddenException.class})
+    public ResponseEntity<Object> handleForbiddenException(Exception ex, WebRequest request) {
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        ErrorType errorType = ErrorType.FORBIDDEN;
+        String detail = "Usuário sem permissão";
+        DetailDTO apiError = createApiErrorBuilder(status, errorType, detail);
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
+    }
+
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {

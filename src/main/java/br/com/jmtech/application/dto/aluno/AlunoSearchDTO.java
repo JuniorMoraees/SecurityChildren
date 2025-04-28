@@ -10,16 +10,5 @@ import lombok.*;
 public class AlunoSearchDTO {
 
     private String nome;
-    private byte[] foto;
-    private AlunoDTO.ResponsavelAlunoDTO responsavelAluno;
-
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Getter
-    @Setter
-    @Builder
-    public static class ResponsavelAlunoDTO {
-        private byte[] foto;
-    }
+    private String foto;
 }

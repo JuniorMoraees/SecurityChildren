@@ -31,6 +31,11 @@ public class UsuarioSqlGateway implements UsuarioGateway {
     }
 
     @Override
+    public List<Usuario> findByName(String nome) {
+        return usuarioRepository.findUsuariosByNome(nome);
+    }
+
+    @Override
     public Optional<Usuario> findUsuarioByLoginAndIdIsNot(String username, Long id) {
         return usuarioRepository.findUsuarioByUsernameAndIdIsNot(username, id);
     }

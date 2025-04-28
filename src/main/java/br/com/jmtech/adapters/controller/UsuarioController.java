@@ -6,6 +6,7 @@ import br.com.jmtech.application.dto.Usuario.UsuarioCreateDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioSearchDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioUpdateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelDTO;
 import br.com.jmtech.domain.usecase.UsuarioUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,6 +55,12 @@ public class UsuarioController {
     @GetMapping("/{idUsuario}")
     public ResponseEntity<UsuarioSearchDTO> findById(@PathVariable Long idUsuario) {
         return  ResponseEntity.ok(usuarioUseCase.findById(idUsuario));
+    }
+
+    @Operation(summary = "Busca usuario por nome")
+    @GetMapping("/{nome}")
+    public ResponseEntity<List<UsuarioDTO>> findByNome(@PathVariable String nome) {
+        return  ResponseEntity.ok(usuarioUseCase.findByNome(nome));
     }
 
     @Operation(summary = "Atualiza os dados de um usuario")

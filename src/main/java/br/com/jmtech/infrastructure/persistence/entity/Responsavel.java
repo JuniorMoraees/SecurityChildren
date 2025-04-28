@@ -39,15 +39,5 @@ public class Responsavel {
     private List<Telefone> telefones;
 
     @Column(name = "foto")
-    private byte[] foto;
-
-    /*@Column(name = "ativo")
-    private Boolean ativo = true;
-
-    @PrePersist
-    public void prePersist() {
-        if (ativo == null) {
-            ativo = true;
-        }
-    }*/
+    private String foto;
 }

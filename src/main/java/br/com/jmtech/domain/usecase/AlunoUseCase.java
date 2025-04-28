@@ -64,4 +64,8 @@ public class AlunoUseCase {
         Aluno alunoForDelete = alunoGateway.findByIdOrElseThrow(idAluno);
         alunoGateway.delete(alunoForDelete.getAlunoId());
     }
+
+    public List<AlunoDTO>  findByNome(String nome) {
+        return alunoAssembler.toAlunoDTO(alunoGateway.findByName(nome));
+    }
 }

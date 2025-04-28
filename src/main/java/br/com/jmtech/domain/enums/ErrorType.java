@@ -11,7 +11,8 @@ public enum ErrorType {
     INTERNAL_SERVER_ERROR("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500", "Internal Server Error"),
     UNPROCESSABLE_ENTITY("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422", "Unprocessable Entity"),
     NOT_FOUND("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404", "Not Found"),
-    BAD_GATEWAY("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502", "Bad Gateway");
+    BAD_GATEWAY("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502", "Bad Gateway"),
+    UNSUPPORTED_MEDIA_TYPE("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/415", "Unsupported Media Type");
 
     private String title;
 

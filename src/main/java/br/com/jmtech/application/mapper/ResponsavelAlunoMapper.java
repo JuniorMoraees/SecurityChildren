@@ -1,13 +1,14 @@
 package br.com.jmtech.application.mapper;
 
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelSearchDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelUpdateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelCreateDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,13 +20,15 @@ public abstract class ResponsavelAlunoMapper {
 
     public static final ResponsavelAlunoMapper INSTANCE = Mappers.getMapper(ResponsavelAlunoMapper.class);
 
-    public abstract Responsavel toResponsavel(ResponsavelAlunoCreateDTO responsavelAlunoCreateDTO, @MappingTarget Responsavel newResponsavel, @Context ResponsavelContext responsavelContext);
+//    public abstract Responsavel toResponsavel(ResponsavelCreateDTO responsavelCreateDTO, @MappingTarget Responsavel newResponsavel, @Context ResponsavelContext responsavelContext);
 
-    public abstract Responsavel toResponsavel(ResponsavelAlunoUpdateDTO responsavelAlunoUpdateDTO, @MappingTarget Responsavel existResponsavel, @Context ResponsavelContext responsavelContext);
+    public abstract Responsavel toResponsavel(ResponsavelUpdateDTO responsavelUpdateDTO, @MappingTarget Responsavel existResponsavel, @Context ResponsavelContext responsavelContext);
 
-    public abstract List<ResponsavelAlunoDTO> toResponsavelDTO(List<Responsavel> responsavel);
+    public abstract List<ResponsavelDTO> toResponsavelDTO(List<Responsavel> responsavel);
 
-    public abstract ResponsavelAlunoSearchDTO toResponsavelSearchDTO(Responsavel responsavel);
+    public abstract ResponsavelSearchDTO toResponsavelSearchDTO(Responsavel responsavel);
+
+    public abstract ResponsavelDTO toResponsavelAlunoDTO(Responsavel responsavel);
 
 
     public static class ResponsavelContext {
@@ -37,6 +40,7 @@ public abstract class ResponsavelAlunoMapper {
         }
     }
 
+    @Named("")
     byte[] map(MultipartFile file) {
         try {
             return (file != null && !file.isEmpty()) ? file.getBytes() : null;

@@ -1,6 +1,7 @@
 package br.com.jmtech.infrastructure.persistence.database;
 
 
+import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
 import br.com.jmtech.adapters.exception.NotFoundException;
 import br.com.jmtech.adapters.gateway.AlunoGateway;
@@ -52,5 +53,10 @@ public class AlunoSQLGateway implements AlunoGateway {
     @Override
     public void delete(Long idAluno) {
         repository.deleteById(idAluno);
+    }
+
+    @Override
+    public List<Aluno> findByName(String nome) {
+        return repository.findAlunosByNome(nome);
     }
 }

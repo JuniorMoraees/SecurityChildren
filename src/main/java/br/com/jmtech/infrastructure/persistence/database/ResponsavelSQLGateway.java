@@ -1,5 +1,6 @@
 package br.com.jmtech.infrastructure.persistence.database;
 
+import br.com.jmtech.application.dto.responsavel.ResponsavelSearchDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import br.com.jmtech.adapters.gateway.ResponsavelGateway;
 import br.com.jmtech.adapters.repository.ResponsavelRepository;
@@ -65,6 +66,11 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
     @Override
     public void delete(Long id) {
         responsavelRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Responsavel> findByName(String nome) {
+        return responsavelRepository.findResponsavelsByNome(nome);
     }
 }
 

@@ -30,5 +30,5 @@ public class Aluno {
     private String qrCode;
 
     @Column(name = "foto")
-    private byte[] foto;
+    private String foto;
 }

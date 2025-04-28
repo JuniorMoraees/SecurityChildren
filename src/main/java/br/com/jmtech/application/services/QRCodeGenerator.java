@@ -40,9 +40,9 @@ public class QRCodeGenerator {
             Aluno aluno = alunoRepository.findById(idAluno)
                     .orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
-            List<Responsavel> responsaveis = responsavelRepository.findByAlunos_AlunoId(aluno.getAlunoId());
+            List<Responsavel> responsaveis = responsavelRepository.findResponsaveisAtivosByAlunoId(aluno.getAlunoId());
             if (responsaveis.isEmpty()) {
-                throw new NotFoundException("Nenhum responsável vinculado ao aluno: " + aluno.getNome());
+                throw new NotFoundException("Nenhum responsável ativo vinculado ao aluno: " + aluno.getNome());
             }
 
             String qrCodeAlunoBase64 = gerarImagemQrBase64("QR Code do aluno: " + aluno.getNome());
@@ -66,8 +66,14 @@ public class QRCodeGenerator {
 
                 qrcodeResponsavelRepository.save(qrResponsavel);
 
-                String numeroString = responsavel.getTelefones().get(0).getNumero().toString();
-                enviarQrCodeViaWhatsApp(numeroString, aluno.getNome(), qrCodeResponsavelBase64);
+                List<Telefone> telefones = responsavel.getTelefones();
+                for (Telefone telefone : telefones) {
+                    if(telefone.getTipoTelefone().getIdTipoTelefone() == 2){
+                        enviarQrCodeViaWhatsApp(telefone.toString(), aluno.getNome(), qrCodeResponsavelBase64);
+                    }
+                }
+
+
 
                 RegistroEntrada registro = new RegistroEntrada();
                 registro.setAluno(aluno);

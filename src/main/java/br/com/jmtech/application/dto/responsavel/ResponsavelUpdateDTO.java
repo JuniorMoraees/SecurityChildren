@@ -1,25 +1,22 @@
 package br.com.jmtech.application.dto.responsavel;
 
-import br.com.jmtech.infrastructure.persistence.entity.TipoTelefone;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ResponsavelAlunoCreateDTO {
+public class ResponsavelUpdateDTO {
 
     private String nome;
     private String cpf;
     private List<Long> alunosIds;
     private List<TelefoneCreateDTO> telefones;
-
-    // Se quiser trabalhar com upload futuramente:
-    // private MultipartFile foto;
+    private String foto;
 
     @Getter
     @Setter
@@ -30,5 +27,4 @@ public class ResponsavelAlunoCreateDTO {
         private Long numero;
         private Long tipoTelefoneId;
     }
-
 }

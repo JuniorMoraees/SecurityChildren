@@ -11,5 +11,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class AlunoCreateDTO {
 
     private String nome;
-    private MultipartFile foto;
+    private String foto;
 }

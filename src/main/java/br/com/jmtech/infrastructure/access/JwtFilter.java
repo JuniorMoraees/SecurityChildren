@@ -33,6 +33,11 @@ public class JwtFilter implements Filter {
             return;
         }
 
+        if (path.contains("/usuario")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = req.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

@@ -28,4 +28,7 @@ public class ResponsavelAluno {
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
+    @Column(name = "ativo", columnDefinition = "BOOLEAN")
+    private boolean ativo = true;
+
 }

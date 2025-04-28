@@ -11,6 +11,8 @@ public interface UsuarioGateway {
 
     List<Usuario> findAll();
 
+    List<Usuario> findByName(String nome);
+
     Optional<Usuario> findUsuarioByLoginAndIdIsNot(String username, Long id);
 
     Optional<Usuario> findUserByLogin(String username);

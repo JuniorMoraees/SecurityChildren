@@ -1,5 +1,6 @@
 package br.com.jmtech.adapters.repository;
 
+import br.com.jmtech.application.dto.responsavel.ResponsavelSearchDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,10 +14,10 @@ import java.util.Optional;
 public interface ResponsavelRepository extends JpaRepository<Responsavel, Long> {
 
 
-    List<Responsavel> findByAlunos_AlunoId(Long aluno);
+//    List<Responsavel> findByAlunos_AlunoId(Long aluno);
 
-   /* @Query("SELECT ra.responsavel FROM ResponsavelAluno ra WHERE ra.aluno.alunoId = :alunoId AND ra.ativo = true")
-    List<Responsavel> findResponsaveisAtivosByAlunoId(Long alunoId);*/
+    @Query("SELECT ra.responsavel FROM ResponsavelAluno ra WHERE ra.aluno.alunoId = :alunoId AND ra.ativo = true")
+    List<Responsavel> findResponsaveisAtivosByAlunoId(Long alunoId);
 
 //    Responsavel findByAlunos_AlunoId(Integer alunoId);
 
@@ -25,4 +26,6 @@ public interface ResponsavelRepository extends JpaRepository<Responsavel, Long> 
     Optional<Responsavel> findResponsavelAlunoByCpfAndIdIsNot(String cpf, Long id);
 
     Optional<Responsavel> findByCpf(String cpf);
+
+    List<Responsavel> findResponsavelsByNome(String nome);
 }

@@ -54,6 +54,12 @@ public class AlunoController {
         return  ResponseEntity.ok(alunoUseCase.findById(idAluno));
     }
 
+    @Operation(summary = "Busca aluno por nome")
+    @GetMapping("/api/alunos/{nome}")
+    public ResponseEntity<List<AlunoDTO>> findByNome(@PathVariable String nome) {
+        return  ResponseEntity.ok(alunoUseCase.findByNome(nome));
+    }
+
     @Operation(summary = "Atualiza os dados de um aluno")
     @PutMapping("/api/alunos/{idAluno}")
     public ResponseEntity<DetailDTO> update(@PathVariable Long idAluno, @Valid @RequestBody AlunoUpdateDTO alunoUpdate) {

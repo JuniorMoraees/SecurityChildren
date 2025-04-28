@@ -1,5 +1,6 @@
 package br.com.jmtech.adapters.gateway;
 
+import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface AlunoGateway {
     Aluno updateAluno(Aluno alunoToUpdate);
 
     void delete(Long idAluno);
+
+    List<Aluno> findByName(String nome);
 }

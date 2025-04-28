@@ -21,10 +21,9 @@ public class AlunoResponsavelDTO {
 
     public AlunoResponsavelDTO(Aluno aluno, Responsavel responsavel) {
         this.nomeAluno = aluno.getNome();
-        this.fotoAluno = aluno.getFoto();
 
         this.nomeResponsavel = responsavel.getNome();
         this.cpfResponsavel = responsavel.getCpf();
-        this.fotoResponsavel = responsavel.getFoto();
+
     }
 }

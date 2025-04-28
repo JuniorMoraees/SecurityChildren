@@ -27,9 +27,9 @@ public class AlunoAssembler {
         return null; //mexer depois nessa parte do código
     }*/
 
-    public AlunoDTO toAlunoDTO (Aluno aluno, Responsavel responsavel) {
-        return AlunoMapper.INSTANCE.toAlunoDTO(aluno, responsavel);
-    }
+//    public AlunoDTO toAlunoDTO (Aluno aluno, Responsavel responsavel) {
+//        return AlunoMapper.INSTANCE.toAlunoDTO(aluno, responsavel);
+//    }
 
     public List<AlunoDTO> toAlunoDTO (List<Aluno> alunos) {
         return AlunoMapper.INSTANCE.toAlunoDTO(alunos);

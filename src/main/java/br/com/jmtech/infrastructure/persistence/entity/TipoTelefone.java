@@ -20,5 +20,5 @@ public class TipoTelefone {
     private Long idTipoTelefone;
 
     @Column(name = "tipo_telefone")
-    private String tipoTelefone;
+    private String descricao;
 }

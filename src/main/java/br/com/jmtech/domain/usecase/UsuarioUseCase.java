@@ -8,6 +8,7 @@ import br.com.jmtech.application.dto.Usuario.UsuarioCreateDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioSearchDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioUpdateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -59,6 +60,10 @@ public class UsuarioUseCase {
     public UsuarioSearchDTO findById(Long idUsuario) {
         Usuario usuario = usuarioGateway.findByIdOrElseThrow(idUsuario);
         return usuarioAssembler.toUsuarioSearchDTO(usuario);
+    }
+
+    public List<UsuarioDTO> findByNome(String nome) {
+        return usuarioAssembler.toUsuarioDTO(usuarioGateway.findByName(nome));
     }
 
     public void update(UsuarioUpdateDTO usuarioUpdateDTO, long idUsuario) throws DataBaseCreateException {

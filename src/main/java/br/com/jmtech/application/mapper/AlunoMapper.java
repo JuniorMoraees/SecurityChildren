@@ -4,6 +4,7 @@ import br.com.jmtech.application.dto.aluno.AlunoCreateDTO;
 import br.com.jmtech.application.dto.aluno.AlunoDTO;
 import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
 import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import org.mapstruct.Context;
@@ -16,15 +17,18 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { ResponsavelAlunoMapper.class })
 public abstract class AlunoMapper {
 
     public static final AlunoMapper INSTANCE = Mappers.getMapper(AlunoMapper.class);
 
-    @Mapping(target = "responsavelAluno.foto", source = "responsavel.foto")
-    @Mapping(target = "nome", source = "aluno.nome")
-    @Mapping(target = "foto", source = "aluno.foto")
-    public abstract AlunoDTO toAlunoDTO(Aluno aluno, Responsavel responsavel);
+//    @Mapping(target = "responsavelAluno", source = "responsaveis")
+//    public abstract AlunoDTO toAlunoDTO(Aluno aluno, Responsavel responsavel);
+
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "nome", source = "nome")
+    @Mapping(target = "foto", source = "foto")
+    public abstract ResponsavelAlunoDTO toResponsavelAlunoDTO(Responsavel responsavel);
 
     public abstract List<AlunoDTO> toAlunoDTO(List<Aluno> aluno);
 

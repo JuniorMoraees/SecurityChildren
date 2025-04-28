@@ -1,10 +1,10 @@
 package br.com.jmtech.adapters.controller;
 
 import br.com.jmtech.application.dto.DetailDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelSearchDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelUpdateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelCreateDTO;
 import br.com.jmtech.domain.usecase.ResponsavelUseCase;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ public class ResponsavelController {
 
     @Operation(summary = "Cria um novo responsável")
     @PostMapping("/api/responsaveis")
-    public ResponseEntity<DetailDTO> create(@Valid @RequestBody ResponsavelAlunoCreateDTO responsavel) throws DataBaseCreateException {
+    public ResponseEntity<DetailDTO> create(@Valid @RequestBody ResponsavelCreateDTO responsavel) throws DataBaseCreateException {
         Long id = responsavelUseCase.create(responsavel);
         return ResponseEntity.created(URI.create(String.format("/securitychildren/%d", id)))
                 .body(DetailDTO.builder()
@@ -45,19 +45,25 @@ public class ResponsavelController {
 
     @Operation(summary = "Busca todos os responsáveis")
     @GetMapping("/api/responsaveis")
-    public ResponseEntity<List<ResponsavelAlunoDTO>> findAll() {
+    public ResponseEntity<List<ResponsavelDTO>> findAll() {
         return ResponseEntity.ok(responsavelUseCase.findAll());
     }
 
     @Operation(summary = "Busca responsável por ID")
     @GetMapping("/api/responsaveis/{idResponsavel}")
-    public ResponseEntity<ResponsavelAlunoSearchDTO> findById(@PathVariable Long idResponsavel) {
+    public ResponseEntity<ResponsavelSearchDTO> findById(@PathVariable Long idResponsavel) {
         return  ResponseEntity.ok(responsavelUseCase.findById(idResponsavel));
+    }
+
+    @Operation(summary = "Busca responsavel por nome")
+    @GetMapping("/api/responsaveis/{nome}")
+    public ResponseEntity<List<ResponsavelDTO>> findByNome(@PathVariable String nome) {
+        return  ResponseEntity.ok(responsavelUseCase.findByNome(nome));
     }
 
     @Operation(summary = "Atualiza um responsável")
     @PutMapping("/api/responsaveis/{idResponsavel}")
-    public ResponseEntity<DetailDTO> update(@PathVariable long idResponsavel, @Valid @RequestBody ResponsavelAlunoUpdateDTO responsavelAlunoUpdate) throws DataBaseCreateException {
+    public ResponseEntity<DetailDTO> update(@PathVariable long idResponsavel, @Valid @RequestBody ResponsavelUpdateDTO responsavelAlunoUpdate) throws DataBaseCreateException {
         responsavelUseCase.update(responsavelAlunoUpdate, idResponsavel);
         return ResponseEntity.ok().body(DetailDTO.builder()
                 .status(HttpStatus.OK.value())
