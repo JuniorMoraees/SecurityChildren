@@ -7,10 +7,11 @@ import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
 import br.com.jmtech.domain.usecase.ResponsavelUseCase;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/securitychildren")
-@Tag(name = "Responsáveis", description = "Operações relacionadas aos dados dos responsaveis")
+@Api(value = "Responsáveis", tags = "Responsáveis")
 public class ResponsavelController {
 
     private static final String CREATED = "Criado com sucesso";
@@ -31,7 +32,7 @@ public class ResponsavelController {
 
     private final ResponsavelUseCase responsavelUseCase;
 
-    @Operation(summary = "Cria um novo responsável")
+    @ApiOperation(value = "Cria um novo responsável", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PostMapping("/api/responsaveis")
     public ResponseEntity<DetailDTO> create(@Valid @RequestBody ResponsavelAlunoCreateDTO responsavel) throws DataBaseCreateException {
         Long id = responsavelUseCase.create(responsavel);
@@ -43,19 +44,19 @@ public class ResponsavelController {
                         .build());
     }
 
-    @Operation(summary = "Busca todos os responsáveis")
+    @ApiOperation(value = "Busca todos os responsáveis")
     @GetMapping("/api/responsaveis")
     public ResponseEntity<List<ResponsavelAlunoDTO>> findAll() {
         return ResponseEntity.ok(responsavelUseCase.findAll());
     }
 
-    @Operation(summary = "Busca responsável por ID")
+    @ApiOperation(value = "Busca responsável por ID")
     @GetMapping("/api/responsaveis/{idResponsavel}")
     public ResponseEntity<ResponsavelAlunoSearchDTO> findById(@PathVariable Long idResponsavel) {
         return  ResponseEntity.ok(responsavelUseCase.findById(idResponsavel));
     }
 
-    @Operation(summary = "Atualiza um responsável")
+    @ApiOperation(value = "Atualiza um responsável")
     @PutMapping("/api/responsaveis/{idResponsavel}")
     public ResponseEntity<DetailDTO> update(@PathVariable long idResponsavel, @Valid @RequestBody ResponsavelAlunoUpdateDTO responsavelAlunoUpdate) throws DataBaseCreateException {
         responsavelUseCase.update(responsavelAlunoUpdate, idResponsavel);
@@ -66,7 +67,7 @@ public class ResponsavelController {
                 .build());
     }
 
-    @Operation(summary = "Deleta um responsável")
+    @ApiOperation(value = "Deleta um responsável")
     @DeleteMapping("/api/responsaveis/{idResponsavel}")
     public ResponseEntity<DetailDTO> delete(@PathVariable long idResponsavel) {
         responsavelUseCase.delete(idResponsavel);

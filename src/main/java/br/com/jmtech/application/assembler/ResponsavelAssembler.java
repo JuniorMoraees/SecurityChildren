@@ -65,11 +65,6 @@ public class ResponsavelAssembler {
         return dtos.stream().map(dto -> {
             Telefone telefone = new Telefone();
             telefone.setNumero(dto.getNumero());
-
-            TipoTelefone tipoTelefone = new TipoTelefone();
-            tipoTelefone.setIdTipoTelefone(dto.getTipoTelefoneId());
-            telefone.setTipoTelefone(tipoTelefone);
-
             return telefone;
         }).collect(Collectors.toList());
     }

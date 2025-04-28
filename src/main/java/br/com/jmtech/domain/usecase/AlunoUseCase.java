@@ -6,6 +6,7 @@ import br.com.jmtech.application.dto.aluno.*;
 import br.com.jmtech.application.services.QrCodeReader;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
 import br.com.jmtech.infrastructure.persistence.entity.QRCodeResponsavel;
+import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import br.com.jmtech.adapters.gateway.AlunoGateway;
 import br.com.jmtech.adapters.gateway.ResponsavelGateway;
 import lombok.AllArgsConstructor;
