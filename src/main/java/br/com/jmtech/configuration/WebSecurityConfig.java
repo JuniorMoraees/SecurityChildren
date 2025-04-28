@@ -15,8 +15,6 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeHttpRequests(auth -> auth
@@ -25,9 +23,7 @@ public class WebSecurityConfig {
                                 "/auth/login",
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "index.html",
-                                "/"
+                                "/v3/api-docs/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
