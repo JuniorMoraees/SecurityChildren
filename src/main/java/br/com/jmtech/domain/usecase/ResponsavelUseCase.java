@@ -1,6 +1,7 @@
 package br.com.jmtech.domain.usecase;
 
 import br.com.jmtech.application.assembler.ResponsavelAssembler;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
@@ -32,8 +33,8 @@ public class ResponsavelUseCase {
         return responsavelGateway.createResponsavel(newResponsavel).getId();
     }
 
-    public List<ResponsavelAlunoDTO> findAll() {
-        return responsavelAssembler.toResponsavelDTO(responsavelGateway.findAll());
+    public PaginatedAnswerDTO<ResponsavelAlunoDTO> findAll(Integer page, Integer pageSize) {
+        return responsavelAssembler.toResponsavelDTO(responsavelGateway.findAll(page, pageSize));
     }
 
 

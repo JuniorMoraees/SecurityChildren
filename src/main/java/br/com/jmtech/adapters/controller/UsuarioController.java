@@ -2,11 +2,13 @@ package br.com.jmtech.adapters.controller;
 
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
 import br.com.jmtech.application.dto.DetailDTO;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioCreateDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioSearchDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioUpdateDTO;
 import br.com.jmtech.domain.usecase.UsuarioUseCase;
+import br.com.jmtech.infrastructure.persistence.entity.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -46,8 +48,10 @@ public class UsuarioController {
 
     @Operation(summary = "Lista todos os usuarios")
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> findAll() {
-        return ResponseEntity.ok(usuarioUseCase.findAll());
+    public ResponseEntity<PaginatedAnswerDTO<UsuarioDTO>> findAll(
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return ResponseEntity.ok(usuarioUseCase.findAll(page, pageSize));
     }
 
     @Operation(summary = "Busca usuario por ID")

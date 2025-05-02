@@ -1,6 +1,8 @@
 package br.com.jmtech.adapters.controller;
 
 import br.com.jmtech.application.dto.DetailDTO;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
+import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
@@ -45,8 +47,10 @@ public class ResponsavelController {
 
     @Operation(summary = "Busca todos os responsáveis")
     @GetMapping("/api/responsaveis")
-    public ResponseEntity<List<ResponsavelAlunoDTO>> findAll() {
-        return ResponseEntity.ok(responsavelUseCase.findAll());
+    public ResponseEntity<PaginatedAnswerDTO<ResponsavelAlunoDTO>> findAll(
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return ResponseEntity.ok(responsavelUseCase.findAll(page, pageSize));
     }
 
     @Operation(summary = "Busca responsável por ID")

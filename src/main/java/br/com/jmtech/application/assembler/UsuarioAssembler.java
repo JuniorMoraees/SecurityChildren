@@ -1,5 +1,6 @@
 package br.com.jmtech.application.assembler;
 
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioCreateDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioSearchDTO;
@@ -24,8 +25,11 @@ public class UsuarioAssembler {
         return UsuarioMapper.INSTANCE.toUsuario(usuarioUpdateDTO, existUsuario, new UsuarioMapper.UsuarioContext(idUsuario));
     }
 
-    public List<UsuarioDTO> toUsuarioDTO(List<Usuario> usuarios) {
-        return UsuarioMapper.INSTANCE.toUsuarioDTO(usuarios);
+    public PaginatedAnswerDTO<UsuarioDTO> toUsuarioDTO(PaginatedAnswerDTO<Usuario> usuarios) {
+        return PaginatedAnswerDTO.<UsuarioDTO>builder()
+                .pageMetaData(usuarios.getPageMetaData())
+                .answerContent(UsuarioMapper.INSTANCE.toUsuarioDTO(usuarios.getAnswerContent()))
+                .build();
     }
 
     public UsuarioSearchDTO toUsuarioSearchDTO(Usuario usuario) {

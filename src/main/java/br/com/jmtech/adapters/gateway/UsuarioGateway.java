@@ -1,5 +1,6 @@
 package br.com.jmtech.adapters.gateway;
 
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Usuario;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface UsuarioGateway {
 
     Usuario createUsuario(Usuario newUsuario);
 
-    List<Usuario> findAll();
+    PaginatedAnswerDTO<Usuario> findAll(Integer page, Integer pageSize);
 
     Optional<Usuario> findUsuarioByLoginAndIdIsNot(String username, Long id);
 

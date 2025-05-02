@@ -16,8 +16,8 @@ public class ResponsavelAlunoDTO {
 
     private String nome;
     private String cpf;
-    private List<AlunoDTO> alunos;
     private List<Telefone> telefones;
+    private List<AlunoDTO> alunos;
     private byte[] foto;
 
 

@@ -2,6 +2,7 @@ package br.com.jmtech.domain.usecase;
 
 
 import br.com.jmtech.application.assembler.AlunoAssembler;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.aluno.*;
 import br.com.jmtech.application.services.QrCodeReader;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
@@ -39,8 +40,8 @@ public class AlunoUseCase {
         return alunoGateway.createAluno(aluno).getAlunoId();
     }
 
-    public List<AlunoDTO> findAll() {
-        return alunoAssembler.toAlunoDTO(alunoGateway.findAll());
+    public PaginatedAnswerDTO<AlunoDTO> findAll(Integer page, Integer pageSize) {
+        return alunoAssembler.toAlunoDTO(alunoGateway.findAll(page, pageSize));
     }
 
     public AlunoSearchDTO findById(Long idAluno) {

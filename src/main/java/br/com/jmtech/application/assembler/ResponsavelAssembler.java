@@ -2,6 +2,7 @@ package br.com.jmtech.application.assembler;
 
 
 import br.com.jmtech.adapters.repository.AlunoRepository;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
@@ -157,5 +158,12 @@ public class ResponsavelAssembler {
 
     public ResponsavelAlunoSearchDTO toResponsavelSearchDTO(Responsavel responsavel) {
         return ResponsavelAlunoMapper.INSTANCE.toResponsavelSearchDTO(responsavel);
+    }
+
+    public PaginatedAnswerDTO<ResponsavelAlunoDTO> toResponsavelDTO(PaginatedAnswerDTO<Responsavel> responsaveis) {
+        return PaginatedAnswerDTO.<ResponsavelAlunoDTO>builder()
+                .pageMetaData(responsaveis.getPageMetaData())
+                .answerContent(toResponsavelDTO(responsaveis.getAnswerContent()))
+                .build();
     }
 }

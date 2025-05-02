@@ -1,9 +1,15 @@
 package br.com.jmtech.infrastructure.persistence.database;
 
+import br.com.jmtech.application.dto.PageDTO;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import br.com.jmtech.adapters.gateway.ResponsavelGateway;
 import br.com.jmtech.adapters.repository.ResponsavelRepository;
+import br.com.jmtech.infrastructure.persistence.entity.Usuario;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -46,8 +52,20 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
     }
 
     @Override
-    public List<Responsavel> findAll() {
-        return responsavelRepository.findAll();
+    public PaginatedAnswerDTO<Responsavel> findAll(Integer page, Integer pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize); // Spring usa page 0-based
+        Page<Responsavel> pageResult = responsavelRepository.findAll(pageable);
+
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setTotalRecords((int) pageResult.getTotalElements());
+        pageDTO.setTotalPages(pageResult.getTotalPages());
+        pageDTO.setPageNumber(page);
+        pageDTO.setPageSize(pageSize);
+
+        return PaginatedAnswerDTO.<Responsavel>builder()
+                .answerContent(pageResult.getContent())
+                .pageMetaData(pageDTO)
+                .build();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package br.com.jmtech.adapters.gateway;
 
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface AlunoGateway {
 
     Aluno createAluno(Aluno aluno);
 
-    List<Aluno> findAll();
+    PaginatedAnswerDTO<Aluno> findAll(Integer page, Integer pageSize);
 
     Aluno updateAluno(Aluno alunoToUpdate);
 

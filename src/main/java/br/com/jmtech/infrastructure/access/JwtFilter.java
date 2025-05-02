@@ -23,12 +23,9 @@ public class JwtFilter implements Filter {
 
         String path = req.getRequestURI();
 
-        if (path.contains("/swagger-ui") || path.contains("/v3/api-docs")) {
-            chain.doFilter(request, response);
-            return;
-        }
+//        System.out.println("Request URI: " + req.getRequestURI());
 
-        if (path.contains("/auth/login")) {
+        if (path.contains("/swagger-ui") || path.contains("/v3/api-docs") || path.contains("/auth/login")) {
             chain.doFilter(request, response);
             return;
         }
@@ -38,6 +35,7 @@ public class JwtFilter implements Filter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             String usuario = securityAccess.validarToken(token);
+
             if (usuario != null) {
                 UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                         usuario, "", Collections.emptyList());
@@ -46,14 +44,10 @@ public class JwtFilter implements Filter {
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                chain.doFilter(request, response);
-                return;
             }
         }
-
-        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        res.getWriter().write("Token inválido ou ausente.");
+        chain.doFilter(request, response);
     }
+
 }
 

@@ -4,6 +4,7 @@ package br.com.jmtech.domain.usecase;
 import br.com.jmtech.adapters.exception.DataBaseCreateException;
 import br.com.jmtech.adapters.gateway.UsuarioGateway;
 import br.com.jmtech.application.assembler.UsuarioAssembler;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioCreateDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.Usuario.UsuarioSearchDTO;
@@ -22,6 +23,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UsuarioUseCase {
 
+    private static final String[] SORT_PARAMETERS = {};
+
     private final UsuarioGateway usuarioGateway;
     private final UsuarioAssembler usuarioAssembler;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -37,8 +40,8 @@ public class UsuarioUseCase {
         return usuarioGateway.createUsuario(newUsuario).getId();
     }
 
-    public List<UsuarioDTO> findAll() {
-        return usuarioAssembler.toUsuarioDTO(usuarioGateway.findAll());
+    public PaginatedAnswerDTO<UsuarioDTO> findAll(Integer page, Integer pageSize) {
+        return usuarioAssembler.toUsuarioDTO(usuarioGateway.findAll(page, pageSize));
     }
 
 
