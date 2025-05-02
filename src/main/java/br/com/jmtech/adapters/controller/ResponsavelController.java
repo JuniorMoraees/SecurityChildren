@@ -2,7 +2,6 @@ package br.com.jmtech.adapters.controller;
 
 import br.com.jmtech.application.dto.DetailDTO;
 import br.com.jmtech.application.dto.PaginatedAnswerDTO;
-import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
