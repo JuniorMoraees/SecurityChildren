@@ -1,6 +1,8 @@
 package br.com.jmtech.adapters.controller;
 
 import br.com.jmtech.application.dto.DetailDTO;
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
+import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
 import br.com.jmtech.application.dto.aluno.AlunoCreateDTO;
 import br.com.jmtech.application.dto.aluno.AlunoDTO;
 import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
@@ -44,8 +46,10 @@ public class AlunoController {
 
     @Operation(summary = "Lista todos os alunos")
     @GetMapping("/api/alunos")
-    public ResponseEntity<List<AlunoDTO>> findAll() {
-        return ResponseEntity.ok(alunoUseCase.findAll());
+    public ResponseEntity<PaginatedAnswerDTO<AlunoDTO>> findAll(
+            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+        return ResponseEntity.ok(alunoUseCase.findAll(page, pageSize));
     }
 
     @Operation(summary = "Busca aluno por ID")

@@ -1,6 +1,7 @@
 package br.com.jmtech.application.assembler;
 
 
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.aluno.*;
 import br.com.jmtech.application.mapper.AlunoMapper;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
@@ -31,8 +32,11 @@ public class AlunoAssembler {
         return AlunoMapper.INSTANCE.toAlunoDTO(aluno, responsavel);
     }
 
-    public List<AlunoDTO> toAlunoDTO (List<Aluno> alunos) {
-        return AlunoMapper.INSTANCE.toAlunoDTO(alunos);
+    public PaginatedAnswerDTO<AlunoDTO> toAlunoDTO (PaginatedAnswerDTO<Aluno> alunos) {
+        return PaginatedAnswerDTO.<AlunoDTO>builder()
+                .pageMetaData(alunos.getPageMetaData())
+                .answerContent(AlunoMapper.INSTANCE.toAlunoDTO(alunos.getAnswerContent()))
+                .build();
     }
 
     public AlunoSearchDTO toAlunoSearchDTO(Aluno aluno) {

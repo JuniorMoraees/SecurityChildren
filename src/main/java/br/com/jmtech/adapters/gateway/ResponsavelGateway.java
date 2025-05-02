@@ -1,5 +1,6 @@
 package br.com.jmtech.adapters.gateway;
 
+import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface ResponsavelGateway {
 
     Optional<Responsavel> findByCpf(String cpf);
 
-    List<Responsavel> findAll();
+    PaginatedAnswerDTO<Responsavel> findAll(Integer page, Integer pageSize);
 
     Responsavel findByIdOrElseThrow(Long idResponsavel);
 
