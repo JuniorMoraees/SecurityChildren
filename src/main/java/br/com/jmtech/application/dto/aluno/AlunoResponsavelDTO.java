@@ -13,11 +13,11 @@ import lombok.*;
 public class AlunoResponsavelDTO {
 
     private String nomeAluno;
-    private byte[] fotoAluno;
+    private String fotoAluno;
 
     private String nomeResponsavel;
     private String cpfResponsavel;
-    private byte[] fotoResponsavel;
+    private String fotoResponsavel;
 
     public AlunoResponsavelDTO(Aluno aluno, Responsavel responsavel) {
         this.nomeAluno = aluno.getNome();

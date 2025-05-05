@@ -30,7 +30,7 @@ import java.util.UUID;
 public class QRCodeGenerator {
 
     private final QRCodeResponsavelRepository qrcodeResponsavelRepository;
-    private final ResponsavelRepository responsavelRepository;
+    private final ResponsavelAlunoRepository responsavelAlunoRepository;
     private final AlunoRepository alunoRepository;
     private final RegistroEntradaRepository registroEntradaRepository;
     private final QRCodeAlunoRepository qrcodeAlunoRepository;
@@ -40,7 +40,7 @@ public class QRCodeGenerator {
             Aluno aluno = alunoRepository.findById(idAluno)
                     .orElseThrow(() -> new NotFoundException("Aluno não encontrado"));
 
-            List<Responsavel> responsaveis = responsavelRepository.findByAlunos_AlunoId(aluno.getAlunoId());
+            List<ResponsavelAluno> responsaveis = responsavelAlunoRepository.findByAluno(aluno);
             if (responsaveis.isEmpty()) {
                 throw new NotFoundException("Nenhum responsável vinculado ao aluno: " + aluno.getNome());
             }
@@ -53,7 +53,8 @@ public class QRCodeGenerator {
             qrCodeAluno.setDataGeracao(LocalDateTime.now());
             qrcodeAlunoRepository.save(qrCodeAluno);
 
-            for (Responsavel responsavel : responsaveis) {
+            for (ResponsavelAluno responsavelAluno : responsaveis) {
+                Responsavel responsavel = responsavelAluno.getResponsavel();
                 String qrResponsavelTexto = "Responsável: " + responsavel.getNome() + " - Aluno: " + aluno.getNome();
                 String qrCodeResponsavelBase64 = gerarImagemQrBase64(qrResponsavelTexto);
 

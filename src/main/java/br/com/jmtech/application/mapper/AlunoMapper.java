@@ -1,9 +1,6 @@
 package br.com.jmtech.application.mapper;
 
-import br.com.jmtech.application.dto.aluno.AlunoCreateDTO;
-import br.com.jmtech.application.dto.aluno.AlunoDTO;
-import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
-import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
+import br.com.jmtech.application.dto.aluno.*;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
 import org.mapstruct.Context;
@@ -21,10 +18,7 @@ public abstract class AlunoMapper {
 
     public static final AlunoMapper INSTANCE = Mappers.getMapper(AlunoMapper.class);
 
-    @Mapping(target = "responsavelAluno.foto", source = "responsavel.foto")
-    @Mapping(target = "nome", source = "aluno.nome")
-    @Mapping(target = "foto", source = "aluno.foto")
-    public abstract AlunoDTO toAlunoDTO(Aluno aluno, Responsavel responsavel);
+    public abstract List<AlunoFindDTO> toAlunoFindDTO(List<Aluno> aluno);
 
     public abstract List<AlunoDTO> toAlunoDTO(List<Aluno> aluno);
 

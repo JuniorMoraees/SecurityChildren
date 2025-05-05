@@ -2,11 +2,7 @@ package br.com.jmtech.adapters.controller;
 
 import br.com.jmtech.application.dto.DetailDTO;
 import br.com.jmtech.application.dto.PaginatedAnswerDTO;
-import br.com.jmtech.application.dto.Usuario.UsuarioDTO;
-import br.com.jmtech.application.dto.aluno.AlunoCreateDTO;
-import br.com.jmtech.application.dto.aluno.AlunoDTO;
-import br.com.jmtech.application.dto.aluno.AlunoSearchDTO;
-import br.com.jmtech.application.dto.aluno.AlunoUpdateDTO;
+import br.com.jmtech.application.dto.aluno.*;
 import br.com.jmtech.domain.usecase.AlunoUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,12 +40,19 @@ public class AlunoController {
                         .build());
     }
 
-    @Operation(summary = "Lista todos os alunos")
+    @Operation(summary = "Lista todos os alunos e filtra por nome")
     @GetMapping("/api/alunos")
     public ResponseEntity<PaginatedAnswerDTO<AlunoDTO>> findAll(
+            @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
-        return ResponseEntity.ok(alunoUseCase.findAll(page, pageSize));
+        return ResponseEntity.ok(alunoUseCase.findAll(nome, page, pageSize));
+    }
+
+    @Operation(summary = "busca alunos por nome sem paginação")
+    @GetMapping("/api/alunos/find")
+    public ResponseEntity<List<AlunoFindDTO>> findByNome(@RequestParam(value = "nome", required = false)String nome){
+        return ResponseEntity.ok(alunoUseCase.findByNome(nome));
     }
 
     @Operation(summary = "Busca aluno por ID")

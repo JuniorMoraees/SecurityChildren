@@ -11,7 +11,7 @@ public class AlunoDTO {
 
     private Long alunoId;
     private String nome;
-    private byte[] foto;
+    private String foto;
     private ResponsavelAlunoDTO responsavelAluno;
 
 
@@ -21,7 +21,7 @@ public class AlunoDTO {
     @Setter
     @Builder
     public static class ResponsavelAlunoDTO {
-        private byte[] foto;
+        private String foto;
     }
 
 }

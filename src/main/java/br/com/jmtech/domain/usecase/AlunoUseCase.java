@@ -40,8 +40,8 @@ public class AlunoUseCase {
         return alunoGateway.createAluno(aluno).getAlunoId();
     }
 
-    public PaginatedAnswerDTO<AlunoDTO> findAll(Integer page, Integer pageSize) {
-        return alunoAssembler.toAlunoDTO(alunoGateway.findAll(page, pageSize));
+    public PaginatedAnswerDTO<AlunoDTO> findAll(String nome, Integer page, Integer pageSize) {
+        return alunoAssembler.toAlunoDTO(alunoGateway.findAll(nome, page, pageSize));
     }
 
     public AlunoSearchDTO findById(Long idAluno) {
@@ -64,5 +64,9 @@ public class AlunoUseCase {
     public void delete(Long idAluno) {
         Aluno alunoForDelete = alunoGateway.findByIdOrElseThrow(idAluno);
         alunoGateway.delete(alunoForDelete.getAlunoId());
+    }
+
+    public List<AlunoFindDTO> findByNome(String nome) {
+        return alunoAssembler.toAlunoFindDTO(alunoGateway.findBynome(nome));
     }
 }

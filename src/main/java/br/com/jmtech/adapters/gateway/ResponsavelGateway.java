@@ -10,7 +10,7 @@ public interface ResponsavelGateway {
 
 //    Responsavel findByAlunoId(Integer alunoId);
 
-    Responsavel findByAlunoId(Long alunoId);
+//    Responsavel findByAlunoId(Long alunoId);
 
     Responsavel createResponsavel(Responsavel newResponsavel);
 
@@ -18,7 +18,7 @@ public interface ResponsavelGateway {
 
     Optional<Responsavel> findByCpf(String cpf);
 
-    PaginatedAnswerDTO<Responsavel> findAll(Integer page, Integer pageSize);
+    PaginatedAnswerDTO<Responsavel> findAll(String nome, Integer page, Integer pageSize);
 
     Responsavel findByIdOrElseThrow(Long idResponsavel);
 

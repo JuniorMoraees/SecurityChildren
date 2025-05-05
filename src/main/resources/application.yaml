@@ -1,20 +1,27 @@
 spring:
   datasource:
-    username: ${MYSQLUSER}
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
-    password: ${MYSQLPASSWORD}
+    username: ${POSTGRES_USER}
+    url: jdbc:postgresql://${PGHOST}:${PGPORT}/${POSTGRES_DB}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   thymeleaf:
     enable: 'false'
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       show-sql: 'true'
       ddl-auto: update
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 server:
   port: ${PORT:8080}

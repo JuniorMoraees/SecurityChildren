@@ -26,28 +26,15 @@ public class Responsavel {
     @Column(name = "cpf")
     private String cpf;
 
-    @ManyToMany
-    @JoinTable(
-            name = "responsavel_aluno",
-            joinColumns = @JoinColumn(name = "idResponsavel"),
-            inverseJoinColumns = @JoinColumn(name = "aluno_id")
-    )
-    private List<Aluno> alunos;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idResponsavel")
     private List<Telefone> telefones;
 
     @Column(name = "foto")
-    private byte[] foto;
+    private String foto;
 
-    /*@Column(name = "ativo")
+    @Column(name = "ativo")
     private Boolean ativo = true;
 
-    @PrePersist
-    public void prePersist() {
-        if (ativo == null) {
-            ativo = true;
-        }
-    }*/
+
 }

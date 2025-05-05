@@ -30,11 +30,16 @@ public class ResponsavelUseCase {
     public Long create(ResponsavelAlunoCreateDTO responsavelAlunoCreateDTO) throws DataBaseCreateException {
         Responsavel newResponsavel = responsavelAssembler.toResponsavel(responsavelAlunoCreateDTO);
         isExistResponsavel(newResponsavel);
-        return responsavelGateway.createResponsavel(newResponsavel).getId();
+        Responsavel responsavelSalvo = responsavelGateway.createResponsavel(newResponsavel);
+        responsavelAssembler.criarVinculosAlunoResponsavel(
+                responsavelAlunoCreateDTO.getAlunosIds(), responsavelSalvo
+        );
+        return responsavelSalvo.getId();
     }
 
-    public PaginatedAnswerDTO<ResponsavelAlunoDTO> findAll(Integer page, Integer pageSize) {
-        return responsavelAssembler.toResponsavelDTO(responsavelGateway.findAll(page, pageSize));
+
+    public PaginatedAnswerDTO<ResponsavelAlunoDTO> findAll(String nome, Integer page, Integer pageSize) {
+        return responsavelAssembler.toResponsavelDTO(responsavelGateway.findAll(nome, page, pageSize));
     }
 
 

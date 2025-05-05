@@ -9,14 +9,16 @@ public interface AlunoGateway {
 
     Aluno findByIdOrElseThrow(Long idAluno);
 
-    Aluno findByQrCodeOrElseThrow(String qrCode);
+//    Aluno findByQrCodeOrElseThrow(String qrCode);
 
 
     Aluno createAluno(Aluno aluno);
 
-    PaginatedAnswerDTO<Aluno> findAll(Integer page, Integer pageSize);
+    PaginatedAnswerDTO<Aluno> findAll(String nome, Integer page, Integer pageSize);
 
     Aluno updateAluno(Aluno alunoToUpdate);
 
     void delete(Long idAluno);
+
+    List<Aluno> findBynome(String nome);
 }

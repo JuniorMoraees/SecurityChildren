@@ -13,12 +13,11 @@ import java.util.List;
 @Builder
 public class ResponsavelAlunoDTO {
 
-
     private String nome;
     private String cpf;
     private List<Telefone> telefones;
     private List<AlunoDTO> alunos;
-    private byte[] foto;
+    private String foto;
 
 
     @AllArgsConstructor

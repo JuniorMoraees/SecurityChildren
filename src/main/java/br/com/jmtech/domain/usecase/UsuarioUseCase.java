@@ -40,8 +40,8 @@ public class UsuarioUseCase {
         return usuarioGateway.createUsuario(newUsuario).getId();
     }
 
-    public PaginatedAnswerDTO<UsuarioDTO> findAll(Integer page, Integer pageSize) {
-        return usuarioAssembler.toUsuarioDTO(usuarioGateway.findAll(page, pageSize));
+    public PaginatedAnswerDTO<UsuarioDTO> findAll(String nome, Integer page, Integer pageSize) {
+        return usuarioAssembler.toUsuarioDTO(usuarioGateway.findAll(nome, page, pageSize));
     }
 
 

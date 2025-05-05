@@ -28,8 +28,8 @@ public class AlunoAssembler {
         return null; //mexer depois nessa parte do código
     }*/
 
-    public AlunoDTO toAlunoDTO (Aluno aluno, Responsavel responsavel) {
-        return AlunoMapper.INSTANCE.toAlunoDTO(aluno, responsavel);
+    public List<AlunoFindDTO> toAlunoFindDTO (List<Aluno> aluno) {
+        return AlunoMapper.INSTANCE.toAlunoFindDTO(aluno);
     }
 
     public PaginatedAnswerDTO<AlunoDTO> toAlunoDTO (PaginatedAnswerDTO<Aluno> alunos) {

@@ -2,6 +2,8 @@ package br.com.jmtech.application.assembler;
 
 
 import br.com.jmtech.adapters.repository.AlunoRepository;
+import br.com.jmtech.adapters.repository.ResponsavelAlunoRepository;
+import br.com.jmtech.adapters.repository.TipoTelefoneRepository;
 import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
 import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
@@ -11,14 +13,12 @@ import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
 import br.com.jmtech.application.mapper.AlunoMapper;
 import br.com.jmtech.application.mapper.ResponsavelAlunoMapper;
 
-import br.com.jmtech.infrastructure.persistence.entity.Aluno;
-import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
-import br.com.jmtech.infrastructure.persistence.entity.Telefone;
-import br.com.jmtech.infrastructure.persistence.entity.TipoTelefone;
+import br.com.jmtech.infrastructure.persistence.entity.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,42 +37,57 @@ public class ResponsavelAssembler {
     private AlunoRepository alunoRepository;
 
     @Autowired
+    private TipoTelefoneRepository tipoTelefoneRepository;
+
+    @Autowired
+    private ResponsavelAlunoRepository responsavelAlunoRepository;
+
+    @Autowired
     private AlunoMapper alunoMapper;
 
     public Responsavel toResponsavel(ResponsavelAlunoCreateDTO dto) {
         if (dto == null) return null;
 
         Responsavel newResponsavel = new Responsavel();
-
         newResponsavel.setNome(dto.getNome());
         newResponsavel.setCpf(dto.getCpf());
-
         List<Telefone> telefones = telefoneCreateDTOListToTelefoneList(dto.getTelefones());
         newResponsavel.setTelefones(telefones);
-
-        if (dto.getAlunosIds() != null && !dto.getAlunosIds().isEmpty()) {
-            List<Aluno> alunos = alunoRepository.findAllById(dto.getAlunosIds());
-            newResponsavel.setAlunos(alunos);
-        } else {
-            newResponsavel.setAlunos(Collections.emptyList());
-        }
 
         return newResponsavel;
     }
 
-    public static List<Telefone> telefoneCreateDTOListToTelefoneList(List<ResponsavelAlunoCreateDTO.TelefoneCreateDTO> dtos) {
+    public List<Telefone> telefoneCreateDTOListToTelefoneList(List<ResponsavelAlunoCreateDTO.TelefoneCreateDTO> dtos) {
         if (dtos == null) return Collections.emptyList();
 
         return dtos.stream().map(dto -> {
             Telefone telefone = new Telefone();
             telefone.setNumero(dto.getNumero());
-
-            TipoTelefone tipoTelefone = new TipoTelefone();
-            tipoTelefone.setIdTipoTelefone(dto.getTipoTelefoneId());
+            if (dto.getTipoTelefoneId() == null || dto.getTipoTelefoneId() == 0) {
+                throw new IllegalArgumentException("ID do TipoTelefone não pode ser 0.");
+            }
+            TipoTelefone tipoTelefone = tipoTelefoneRepository.findById(dto.getTipoTelefoneId())
+                    .orElseThrow(() -> new EntityNotFoundException("TipoTelefone não encontrado com id: " + dto.getTipoTelefoneId()));
             telefone.setTipoTelefone(tipoTelefone);
 
             return telefone;
         }).collect(Collectors.toList());
+    }
+
+    public void criarVinculosAlunoResponsavel(List<Long> alunosIds, Responsavel responsavel) {
+        if (alunosIds == null || alunosIds.isEmpty()) return;
+        for (Long alunoId : alunosIds) {
+            Aluno aluno = alunoRepository.findById(alunoId)
+                    .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado: " + alunoId));
+            boolean exists = responsavelAlunoRepository.existsByResponsavelAndAluno(responsavel, aluno);
+            if (!exists) {
+                ResponsavelAluno responsavelAluno = ResponsavelAluno.builder()
+                        .responsavel(responsavel)
+                        .aluno(aluno)
+                        .build();
+                responsavelAlunoRepository.save(responsavelAluno);
+            }
+        }
     }
 
     public Responsavel toResponsavel(ResponsavelAlunoUpdateDTO responsavelUpdateDTO, Responsavel existResponsavel, long idResponsavel) {
@@ -102,25 +117,21 @@ public class ResponsavelAssembler {
         }
 
         ResponsavelAlunoDTO.ResponsavelAlunoDTOBuilder responsavelAlunoDTO = ResponsavelAlunoDTO.builder();
-
         responsavelAlunoDTO.nome(responsavel.getNome());
         responsavelAlunoDTO.cpf(responsavel.getCpf());
-
-        if (responsavel.getAlunos() != null && !responsavel.getAlunos().isEmpty()) {
-            responsavel.getAlunos().size();
-            responsavelAlunoDTO.alunos(alunoMapper.toAlunoDTO(responsavel.getAlunos()));
-        } else {
-            responsavelAlunoDTO.alunos(Collections.emptyList());
-        }
-
+        List<ResponsavelAluno> vinculos = responsavelAlunoRepository.findByResponsavel(responsavel);
+        List<Aluno> alunos = vinculos.stream()
+                .map(ResponsavelAluno::getAluno)
+                .collect(Collectors.toList());
+        responsavelAlunoDTO.alunos(alunoMapper.toAlunoDTO(alunos));
         responsavelAlunoDTO.telefones(telefoneListToTelefoneList(responsavel.getTelefones()));
-        byte[] foto = responsavel.getFoto();
-        if (foto != null) {
-            responsavelAlunoDTO.foto(Arrays.copyOf(foto, foto.length));
+        if (responsavel.getFoto() != null) {
+            responsavelAlunoDTO.foto(responsavel.getFoto());
         }
 
         return responsavelAlunoDTO.build();
     }
+
     protected List<ResponsavelAlunoDTO.Telefone> telefoneListToTelefoneList(List<Telefone> list) {
         if ( list == null ) {
             return null;
