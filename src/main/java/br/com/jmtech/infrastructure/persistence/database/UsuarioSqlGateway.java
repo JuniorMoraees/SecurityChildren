@@ -31,9 +31,15 @@ public class UsuarioSqlGateway implements UsuarioGateway {
     }
 
     @Override
-    public PaginatedAnswerDTO<Usuario> findAll(Integer page, Integer pageSize) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize); // Spring usa page 0-based
-        Page<Usuario> pageResult = usuarioRepository.findAll(pageable);
+    public PaginatedAnswerDTO<Usuario> findAll(String nome, Integer page, Integer pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Page<Usuario> pageResult;
+
+        if (nome != null && !nome.trim().isEmpty()){
+            pageResult = usuarioRepository.findByNomeContainingIgnoreCase(nome, pageable);
+        }else {
+            pageResult = usuarioRepository.findAll(pageable);
+        }
 
         PageDTO pageDTO = new PageDTO();
         pageDTO.setTotalRecords((int) pageResult.getTotalElements());

@@ -35,11 +35,11 @@ public class AlunoSQLGateway implements AlunoGateway {
                 .orElseThrow(()-> new NotFoundException("Aluno não existe na base de dados"));
     }
 
-    @Override
+    /*@Override
     public Aluno findByQrCodeOrElseThrow(String qrCode) {
         return repository.findByQrCode(qrCode)
                 .orElseThrow(()-> new NotFoundException("QRCode inválido, ou não cadastrado"));
-    }
+    }*/
 
     @Override
     public Aluno createAluno(Aluno aluno) {
@@ -48,9 +48,15 @@ public class AlunoSQLGateway implements AlunoGateway {
 
 
     @Override
-    public PaginatedAnswerDTO<Aluno> findAll(Integer page, Integer pageSize) {
+    public PaginatedAnswerDTO<Aluno> findAll(String nome, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize);
-        Page<Aluno> pageResult = repository.findAll(pageable);
+        Page<Aluno> pageResult;
+
+        if ( nome !=null && !nome.trim().isEmpty()) {
+            pageResult = repository.findByNomeContainingIgnoreCase(nome, pageable);
+        }else {
+            pageResult = repository.findAll(pageable);
+        }
 
         PageDTO pageDTO = new PageDTO();
         pageDTO.setTotalRecords((int) pageResult.getTotalElements());
@@ -73,5 +79,10 @@ public class AlunoSQLGateway implements AlunoGateway {
     @Override
     public void delete(Long idAluno) {
         repository.deleteById(idAluno);
+    }
+
+    @Override
+    public List<Aluno> findBynome(String nome) {
+        return repository.findByNome(nome);
     }
 }

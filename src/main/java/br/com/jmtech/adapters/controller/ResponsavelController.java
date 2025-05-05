@@ -47,9 +47,10 @@ public class ResponsavelController {
     @Operation(summary = "Busca todos os responsáveis")
     @GetMapping("/api/responsaveis")
     public ResponseEntity<PaginatedAnswerDTO<ResponsavelAlunoDTO>> findAll(
+            @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
-        return ResponseEntity.ok(responsavelUseCase.findAll(page, pageSize));
+        return ResponseEntity.ok(responsavelUseCase.findAll(nome, page, pageSize));
     }
 
     @Operation(summary = "Busca responsável por ID")

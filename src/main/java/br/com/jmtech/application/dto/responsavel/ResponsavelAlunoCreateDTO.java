@@ -17,9 +17,7 @@ public class ResponsavelAlunoCreateDTO {
     private String cpf;
     private List<Long> alunosIds;
     private List<TelefoneCreateDTO> telefones;
-
-    // Se quiser trabalhar com upload futuramente:
-    // private MultipartFile foto;
+    private String foto;
 
     @Getter
     @Setter

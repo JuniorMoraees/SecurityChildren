@@ -49,9 +49,10 @@ public class UsuarioController {
     @Operation(summary = "Lista todos os usuarios")
     @GetMapping
     public ResponseEntity<PaginatedAnswerDTO<UsuarioDTO>> findAll(
+            @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
             @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
-        return ResponseEntity.ok(usuarioUseCase.findAll(page, pageSize));
+        return ResponseEntity.ok(usuarioUseCase.findAll(nome, page, pageSize));
     }
 
     @Operation(summary = "Busca usuario por ID")

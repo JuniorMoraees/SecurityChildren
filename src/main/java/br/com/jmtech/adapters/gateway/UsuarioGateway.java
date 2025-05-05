@@ -10,7 +10,7 @@ public interface UsuarioGateway {
 
     Usuario createUsuario(Usuario newUsuario);
 
-    PaginatedAnswerDTO<Usuario> findAll(Integer page, Integer pageSize);
+    PaginatedAnswerDTO<Usuario> findAll(String nome, Integer page, Integer pageSize);
 
     Optional<Usuario> findUsuarioByLoginAndIdIsNot(String username, Long id);
 

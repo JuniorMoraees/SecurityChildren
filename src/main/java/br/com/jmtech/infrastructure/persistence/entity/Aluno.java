@@ -23,12 +23,6 @@ public class Aluno {
     @Column(name = "nome")
     private String nome;
 
-    @ManyToMany(mappedBy = "alunos")
-    private List<Responsavel> responsaveis;
-
-    @Column(name = "qr_code")
-    private String qrCode;
-
     @Column(name = "foto")
-    private byte[] foto;
+    private String foto;
 }

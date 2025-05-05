@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,10 +33,10 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
 //        return responsavelRepository.findByAlunos_AlunoId(alunoId);
 //    }
 
-    @Override
+    /*@Override
     public Responsavel findByAlunoId(Long alunoId) {
         return responsavelRepository.findByAlunosAlunoId(alunoId);
-    }
+    }*/
 
     @Override
     public Responsavel createResponsavel(Responsavel newResponsavel) {
@@ -52,9 +54,15 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
     }
 
     @Override
-    public PaginatedAnswerDTO<Responsavel> findAll(Integer page, Integer pageSize) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize); // Spring usa page 0-based
-        Page<Responsavel> pageResult = responsavelRepository.findAll(pageable);
+    public PaginatedAnswerDTO<Responsavel> findAll(String nome, Integer page, Integer pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Page<Responsavel> pageResult;
+
+        if (nome != null && !nome.trim().isEmpty()){
+            pageResult = responsavelRepository.findByNomeContainingIgnoreCase(nome, pageable);
+        } else {
+            pageResult = responsavelRepository.findAll(pageable);
+        }
 
         PageDTO pageDTO = new PageDTO();
         pageDTO.setTotalRecords((int) pageResult.getTotalElements());
