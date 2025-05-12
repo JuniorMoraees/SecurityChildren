@@ -1,11 +1,13 @@
 package br.com.jmtech.infrastructure.persistence.database;
 
+import br.com.jmtech.adapters.repository.QRCodeResponsavelRepository;
+import br.com.jmtech.adapters.repository.RegistroEntradaRepository;
+import br.com.jmtech.adapters.repository.ResponsavelAlunoRepository;
 import br.com.jmtech.application.dto.PageDTO;
 import br.com.jmtech.application.dto.PaginatedAnswerDTO;
-import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
+import br.com.jmtech.infrastructure.persistence.entity.*;
 import br.com.jmtech.adapters.gateway.ResponsavelGateway;
 import br.com.jmtech.adapters.repository.ResponsavelRepository;
-import br.com.jmtech.infrastructure.persistence.entity.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +29,10 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
     private final EntityManager manager;
 
     private final ResponsavelRepository responsavelRepository;
+
+    private final ResponsavelAlunoRepository responsavelAlunoRepository;
+
+    private final QRCodeResponsavelRepository qrCodeResponsavelRepository;
 
 //    @Override
 //    public Responsavel findByAlunoId(Integer alunoId) {
@@ -90,7 +96,29 @@ public class ResponsavelSQLGateway implements ResponsavelGateway {
 
     @Override
     public void delete(Long id) {
+        //deletando relacionamento entre responsavel e aluno
+        ResponsavelAluno respDelete = responsavelAlunoRepository.findResponsavelAlunoByResponsavel_Id(id);
+        if (respDelete != null) {
+            responsavelAlunoRepository.deleteById(respDelete.getId());
+        }
+        //deletando os registros de QRCode do responsavel
+        List<QRCodeResponsavel> qrCodes = qrCodeResponsavelRepository.findAllByResponsavel_Id(id);
+        if (qrCodes != null && !qrCodes.isEmpty()) {
+            for (QRCodeResponsavel qrForDelete : qrCodes) {
+                qrCodeResponsavelRepository.deleteById(qrForDelete.getIdQRCode());
+            }
+        }
         responsavelRepository.deleteById(id);
+    }
+
+    @Override
+    public ResponsavelAluno findResponsavelAlunoByIdAluno(long idAluno) {
+        return responsavelAlunoRepository.findResponsavelAlunoByAluno_AlunoId(idAluno);
+    }
+
+    @Override
+    public void deleteByIdAluno(Long id) {
+        responsavelAlunoRepository.deleteById(id);
     }
 }
 

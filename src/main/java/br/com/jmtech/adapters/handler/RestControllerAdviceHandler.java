@@ -27,8 +27,22 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RestControllerAdviceHandler extends ResponseEntityExceptionHandler {
 
+    private Throwable findCauseByType(Throwable ex, Class<?> clazz) {
+        while (ex != null) {
+            if (clazz.isAssignableFrom(ex.getClass())) {
+                return ex;
+            }
+            ex = ex.getCause();
+        }
+        return null;
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUnexpectedException(Exception ex, WebRequest request) {
+        Throwable dbCreateEx = findCauseByType(ex, DataBaseCreateException.class);
+        if (dbCreateEx != null) {
+            return handleDatabaseCreateRetException((DataBaseCreateException) dbCreateEx, request);
+        }
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         ErrorType errorType = ErrorType.INTERNAL_SERVER_ERROR;
         String detail = "Um erro inesperado aconteceu. Entre em contato com o administrador do sistema.";
@@ -36,6 +50,7 @@ public class RestControllerAdviceHandler extends ResponseEntityExceptionHandler 
         DetailDTO apiError = createApiErrorBuilder(status, errorType, detail);
         return handleExceptionInternal(ex, apiError, new HttpHeaders(), status, request);
     }
+
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {

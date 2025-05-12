@@ -2,6 +2,7 @@ package br.com.jmtech.adapters.gateway;
 
 import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Responsavel;
+import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,4 +26,8 @@ public interface ResponsavelGateway {
     Responsavel updateResponsavel(Responsavel responsavelToUpdate);
 
     void delete(Long id);
+
+    ResponsavelAluno findResponsavelAlunoByIdAluno(long idAluno);
+
+    void deleteByIdAluno(Long id);
 }

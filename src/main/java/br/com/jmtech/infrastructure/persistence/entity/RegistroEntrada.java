@@ -20,13 +20,12 @@ public class RegistroEntrada {
       @Column(name = "id_registro")
       private Long id;
 
-      @ManyToOne(optional = false)
-      @JoinColumn(name = "aluno_id")
-      private Aluno aluno;
+      @Column(name = "nome_aluno")
+      private String nomeAluno;
 
-      @ManyToOne(optional = false)
-      @JoinColumn(name = "idResponsavel")
-      private Responsavel responsavel;
+
+      @Column(name = "nome_responsavel")
+      private String nomeResponsavel;
 
       @Column(name = "data_entrada")
       private LocalDate dataEntrada;

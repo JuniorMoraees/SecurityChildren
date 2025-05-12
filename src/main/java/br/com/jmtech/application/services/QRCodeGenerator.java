@@ -71,9 +71,9 @@ public class QRCodeGenerator {
                 enviarQrCodeViaWhatsApp(numeroString, aluno.getNome(), qrCodeResponsavelBase64);
 
                 RegistroEntrada registro = new RegistroEntrada();
-                registro.setAluno(aluno);
+                registro.setNomeAluno(aluno.getNome());
                 registro.setCodigoQR(qrCodeResponsavelBase64);
-                registro.setResponsavel(responsavel);
+                registro.setNomeResponsavel(responsavel.getNome());
                 registro.setDataEntrada(LocalDate.now());
                 registroEntradaRepository.save(registro);
             }

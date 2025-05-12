@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResponsavelAlunoUpdateDTO {
+public class ResponsavelUpdateDTO {
     private String nome;
     private String cpf;
     private List<Long> alunosIds;
