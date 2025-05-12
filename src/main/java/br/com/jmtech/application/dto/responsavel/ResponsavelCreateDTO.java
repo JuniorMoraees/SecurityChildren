@@ -1,6 +1,5 @@
 package br.com.jmtech.application.dto.responsavel;
 
-import br.com.jmtech.infrastructure.persistence.entity.TipoTelefone;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class ResponsavelAlunoCreateDTO {
+public class ResponsavelCreateDTO {
 
     private String nome;
     private String cpf;

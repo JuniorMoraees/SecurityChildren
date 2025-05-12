@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class ResponsavelAlunoSearchDTO {
+public class ResponsavelSearchDTO {
 
     private String nome;
     private String cpf;

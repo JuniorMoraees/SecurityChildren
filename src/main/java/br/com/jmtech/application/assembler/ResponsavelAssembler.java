@@ -5,10 +5,10 @@ import br.com.jmtech.adapters.repository.AlunoRepository;
 import br.com.jmtech.adapters.repository.ResponsavelAlunoRepository;
 import br.com.jmtech.adapters.repository.TipoTelefoneRepository;
 import br.com.jmtech.application.dto.PaginatedAnswerDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoSearchDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoUpdateDTO;
-import br.com.jmtech.application.dto.responsavel.ResponsavelAlunoCreateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelSearchDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelUpdateDTO;
+import br.com.jmtech.application.dto.responsavel.ResponsavelCreateDTO;
 
 import br.com.jmtech.application.mapper.AlunoMapper;
 import br.com.jmtech.application.mapper.ResponsavelAlunoMapper;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +44,7 @@ public class ResponsavelAssembler {
     @Autowired
     private AlunoMapper alunoMapper;
 
-    public Responsavel toResponsavel(ResponsavelAlunoCreateDTO dto) {
+    public Responsavel toResponsavel(ResponsavelCreateDTO dto) {
         if (dto == null) return null;
 
         Responsavel newResponsavel = new Responsavel();
@@ -57,7 +56,7 @@ public class ResponsavelAssembler {
         return newResponsavel;
     }
 
-    public List<Telefone> telefoneCreateDTOListToTelefoneList(List<ResponsavelAlunoCreateDTO.TelefoneCreateDTO> dtos) {
+    public List<Telefone> telefoneCreateDTOListToTelefoneList(List<ResponsavelCreateDTO.TelefoneCreateDTO> dtos) {
         if (dtos == null) return Collections.emptyList();
 
         return dtos.stream().map(dto -> {
@@ -90,7 +89,7 @@ public class ResponsavelAssembler {
         }
     }
 
-    public Responsavel toResponsavel(ResponsavelAlunoUpdateDTO responsavelUpdateDTO, Responsavel existResponsavel, long idResponsavel) {
+    public Responsavel toResponsavel(ResponsavelUpdateDTO responsavelUpdateDTO, Responsavel existResponsavel, long idResponsavel) {
         return ResponsavelAlunoMapper.INSTANCE.toResponsavel(responsavelUpdateDTO, existResponsavel, new ResponsavelAlunoMapper.ResponsavelContext(idResponsavel));
     }
 
@@ -98,12 +97,12 @@ public class ResponsavelAssembler {
 //        return ResponsavelAlunoMapper.INSTANCE.toResponsavelDTO(responsaveis);
 //    }
 
-    public List<ResponsavelAlunoDTO> toResponsavelDTO(List<Responsavel> responsavel) {
+    public List<ResponsavelDTO> toResponsavelDTO(List<Responsavel> responsavel) {
         if ( responsavel == null ) {
             return null;
         }
 
-        List<ResponsavelAlunoDTO> list = new ArrayList<ResponsavelAlunoDTO>( responsavel.size() );
+        List<ResponsavelDTO> list = new ArrayList<ResponsavelDTO>( responsavel.size() );
         for ( Responsavel responsavelAluno : responsavel ) {
             list.add( responsavelAlunoToResponsavelAlunoDTO( responsavelAluno ) );
         }
@@ -111,12 +110,13 @@ public class ResponsavelAssembler {
         return list;
     }
 
-    protected ResponsavelAlunoDTO responsavelAlunoToResponsavelAlunoDTO(Responsavel responsavel) {
+    protected ResponsavelDTO responsavelAlunoToResponsavelAlunoDTO(Responsavel responsavel) {
         if (responsavel == null) {
             return null;
         }
 
-        ResponsavelAlunoDTO.ResponsavelAlunoDTOBuilder responsavelAlunoDTO = ResponsavelAlunoDTO.builder();
+        ResponsavelDTO.ResponsavelDTOBuilder responsavelAlunoDTO = ResponsavelDTO.builder();
+        responsavelAlunoDTO.id(responsavel.getId());
         responsavelAlunoDTO.nome(responsavel.getNome());
         responsavelAlunoDTO.cpf(responsavel.getCpf());
         List<ResponsavelAluno> vinculos = responsavelAlunoRepository.findByResponsavel(responsavel);
@@ -132,24 +132,24 @@ public class ResponsavelAssembler {
         return responsavelAlunoDTO.build();
     }
 
-    protected List<ResponsavelAlunoDTO.Telefone> telefoneListToTelefoneList(List<Telefone> list) {
+    protected List<ResponsavelDTO.Telefone> telefoneListToTelefoneList(List<Telefone> list) {
         if ( list == null ) {
             return null;
         }
 
-        List<ResponsavelAlunoDTO.Telefone> list1 = new ArrayList<ResponsavelAlunoDTO.Telefone>( list.size() );
+        List<ResponsavelDTO.Telefone> list1 = new ArrayList<ResponsavelDTO.Telefone>( list.size() );
         for ( Telefone telefone : list ) {
             list1.add( telefoneToTelefone( telefone ) );
         }
 
         return list1;
     }
-    protected ResponsavelAlunoDTO.Telefone telefoneToTelefone(Telefone telefone) {
+    protected ResponsavelDTO.Telefone telefoneToTelefone(Telefone telefone) {
         if ( telefone == null ) {
             return null;
         }
 
-        ResponsavelAlunoDTO.Telefone.TelefoneBuilder telefone1 = ResponsavelAlunoDTO.Telefone.builder();
+        ResponsavelDTO.Telefone.TelefoneBuilder telefone1 = ResponsavelDTO.Telefone.builder();
 
         telefone1.tipoTelefone( tipoTelefoneToTipoTelefone( telefone.getTipoTelefone() ) );
         telefone1.numero( telefone.getNumero() );
@@ -157,22 +157,22 @@ public class ResponsavelAssembler {
         return telefone1.build();
     }
 
-    protected ResponsavelAlunoDTO.TipoTelefone tipoTelefoneToTipoTelefone(TipoTelefone tipoTelefone) {
+    protected ResponsavelDTO.TipoTelefone tipoTelefoneToTipoTelefone(TipoTelefone tipoTelefone) {
         if ( tipoTelefone == null ) {
             return null;
         }
 
-        ResponsavelAlunoDTO.TipoTelefone.TipoTelefoneBuilder tipoTelefone1 = ResponsavelAlunoDTO.TipoTelefone.builder();
+        ResponsavelDTO.TipoTelefone.TipoTelefoneBuilder tipoTelefone1 = ResponsavelDTO.TipoTelefone.builder();
 
         return tipoTelefone1.build();
     }
 
-    public ResponsavelAlunoSearchDTO toResponsavelSearchDTO(Responsavel responsavel) {
+    public ResponsavelSearchDTO toResponsavelSearchDTO(Responsavel responsavel) {
         return ResponsavelAlunoMapper.INSTANCE.toResponsavelSearchDTO(responsavel);
     }
 
-    public PaginatedAnswerDTO<ResponsavelAlunoDTO> toResponsavelDTO(PaginatedAnswerDTO<Responsavel> responsaveis) {
-        return PaginatedAnswerDTO.<ResponsavelAlunoDTO>builder()
+    public PaginatedAnswerDTO<ResponsavelDTO> toResponsavelDTO(PaginatedAnswerDTO<Responsavel> responsaveis) {
+        return PaginatedAnswerDTO.<ResponsavelDTO>builder()
                 .pageMetaData(responsaveis.getPageMetaData())
                 .answerContent(toResponsavelDTO(responsaveis.getAnswerContent()))
                 .build();

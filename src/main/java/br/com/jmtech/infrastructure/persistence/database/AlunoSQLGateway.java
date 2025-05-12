@@ -1,12 +1,16 @@
 package br.com.jmtech.infrastructure.persistence.database;
 
 
+import br.com.jmtech.adapters.repository.QRCodeAlunoRepository;
+import br.com.jmtech.adapters.repository.ResponsavelAlunoRepository;
 import br.com.jmtech.application.dto.PageDTO;
 import br.com.jmtech.application.dto.PaginatedAnswerDTO;
 import br.com.jmtech.infrastructure.persistence.entity.Aluno;
 import br.com.jmtech.adapters.exception.NotFoundException;
 import br.com.jmtech.adapters.gateway.AlunoGateway;
 import br.com.jmtech.adapters.repository.AlunoRepository;
+import br.com.jmtech.infrastructure.persistence.entity.QRCodeAluno;
+import br.com.jmtech.infrastructure.persistence.entity.ResponsavelAluno;
 import br.com.jmtech.infrastructure.persistence.entity.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,7 +31,10 @@ public class AlunoSQLGateway implements AlunoGateway {
     private final EntityManager manager;
 
     private final AlunoRepository repository;
+    private final ResponsavelAlunoRepository responsavelAlunoRepository;
     private final AlunoRepository alunoRepository;
+
+    private final QRCodeAlunoRepository qrCodeAlunoRepository;
 
     @Override
     public Aluno findByIdOrElseThrow(Long idAluno) {
@@ -78,6 +85,16 @@ public class AlunoSQLGateway implements AlunoGateway {
 
     @Override
     public void delete(Long idAluno) {
+        ResponsavelAluno aluDelete = responsavelAlunoRepository.findResponsavelAlunoByAluno_AlunoId(idAluno);
+        if (aluDelete != null) {
+            responsavelAlunoRepository.deleteById(aluDelete.getId());
+        }
+        List<QRCodeAluno> qrCodes = qrCodeAlunoRepository.findAllByAluno_AlunoId(idAluno);
+        if (qrCodes != null && !qrCodes.isEmpty()) {
+            for (QRCodeAluno qrCodeAluno : qrCodes) {
+                qrCodeAlunoRepository.deleteById(qrCodeAluno.getId());
+            }
+        }
         repository.deleteById(idAluno);
     }
 

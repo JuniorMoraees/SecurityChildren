@@ -11,8 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class ResponsavelAlunoDTO {
+public class ResponsavelDTO {
 
+    private Long id;
     private String nome;
     private String cpf;
     private List<Telefone> telefones;
