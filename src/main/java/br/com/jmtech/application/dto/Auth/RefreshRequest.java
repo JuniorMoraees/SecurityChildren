@@ -1,4 +1,4 @@
-package br.com.jmtech.infrastructure.access;
+package br.com.jmtech.application.dto.Auth;
 
 import lombok.*;
 
@@ -7,8 +7,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class TokenResponse {
+public class RefreshRequest {
 
-    private String token;
     private String refreshToken;
+
 }
