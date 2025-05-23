@@ -24,7 +24,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         path: frontend
 
-    - name: Adicionar docker-compose.yml
+    - name: Organizar estrutura para deploy
       run: |
         mkdir deploy
         cp backend/docker-compose.yml deploy/docker-compose.yml
