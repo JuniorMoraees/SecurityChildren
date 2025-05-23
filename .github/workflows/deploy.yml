@@ -10,17 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout código
+    - name: Checkout backend
       uses: actions/checkout@v3
+      with:
+        repository: JuniorMoraees/SecurityChildren
+        path: backend
 
-    - name: Enviar arquivos para VPS
+    - name: Checkout frontend
+      uses: actions/checkout@v3
+      with:
+        repository: JuniorMoraees/SecurityChildrenSite
+        path: frontend
+
+    - name: Enviar backend e frontend para VPS
       uses: appleboy/scp-action@v0.1.5
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_SECRET }}
-        source: "."          # envia o conteúdo todo do repositório
-        target: "/root/app"  # caminho na VPS onde está o docker-compose.yml
+        source: |
+          ./backend
+          ./frontend
+        target: /root/app
 
     - name: Rodar Docker Compose na VPS
       uses: appleboy/ssh-action@master
