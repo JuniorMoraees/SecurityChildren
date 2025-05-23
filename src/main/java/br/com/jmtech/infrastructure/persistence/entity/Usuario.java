@@ -28,4 +28,7 @@ public class Usuario {
 
     @Column(name = "nome")
     private String nome;
+
+    @Column(name = "ativo")
+    private Boolean ativo = true;
 }
