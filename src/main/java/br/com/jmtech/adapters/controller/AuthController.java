@@ -34,6 +34,10 @@ public class AuthController {
                 return ResponseEntity.status(404).body("Usuário não encontrado.");
             }
 
+            if (!usuario.getAtivo()){
+                return ResponseEntity.status(403).body("Usuario Inativo.");
+            }
+
             String accessToken = securityAccess.gerarToken(usuario.getUsername(), usuario.getNome());
             String refreshToken = securityAccess.gerarRefreshToken(usuario.getUsername());
 
