@@ -19,8 +19,8 @@ jobs:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_SECRET }}
-        source: "."  # Isso envia tudo do repositório SecurityChildren
-        target: "/root/SecurityChildren"  # Use o mesmo nome da pasta do repositório
+        source: "."                    # Envia todo o repositório SecurityChildren
+        target: "/root/SecurityChildren" # Diretório alvo no VPS
 
     - name: Rodar Docker Compose na VPS
       uses: appleboy/ssh-action@master
