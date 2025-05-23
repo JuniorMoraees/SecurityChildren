@@ -19,8 +19,8 @@ jobs:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_SECRET }}
-        source: "."                    # Envia todo o repositório SecurityChildren
-        target: "/root/SecurityChildren" # Diretório alvo no VPS
+        source: "."          # envia o conteúdo todo do repositório
+        target: "/root/app"  # caminho na VPS onde está o docker-compose.yml
 
     - name: Rodar Docker Compose na VPS
       uses: appleboy/ssh-action@master
@@ -29,6 +29,6 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_SECRET }}
         script: |
-          cd /root/SecurityChildren
+          cd /root/app
           docker compose down
           docker compose up -d --build
