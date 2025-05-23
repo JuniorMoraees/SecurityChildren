@@ -10,28 +10,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout backend
+    - name: Clonar Backend (SecurityChildren)
       uses: actions/checkout@v3
       with:
         repository: JuniorMoraees/SecurityChildren
+        token: ${{ secrets.GITHUB_TOKEN }}
         path: backend
 
-    - name: Checkout frontend
+    - name: Clonar Frontend (SecurityChildrenSite)
       uses: actions/checkout@v3
       with:
         repository: JuniorMoraees/SecurityChildrenSite
+        token: ${{ secrets.GITHUB_TOKEN }}
         path: frontend
 
-    - name: Enviar backend e frontend para VPS
+    - name: Adicionar docker-compose.yml
+      run: |
+        mkdir deploy
+        cp backend/docker-compose.yml deploy/docker-compose.yml
+        mv backend deploy/backend
+        mv frontend deploy/frontend
+
+    - name: Enviar para VPS
       uses: appleboy/scp-action@v0.1.5
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_SECRET }}
-        source: |
-          ./backend
-          ./frontend
-        target: /root/app
+        source: "deploy"
+        target: "/root/app"
 
     - name: Rodar Docker Compose na VPS
       uses: appleboy/ssh-action@master
@@ -40,6 +47,6 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_SECRET }}
         script: |
-          cd /root/app
+          cd /root/app/deploy
           docker compose down
           docker compose up -d --build
